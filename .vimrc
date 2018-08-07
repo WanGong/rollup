@@ -231,6 +231,16 @@ if executable('ag')
 endif
 
 
-" self defined command for search, bind \ (backward slash) to grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nnoremap \ :Ag<SPACE>
+" self defined command for ag search
+function! AgSearch()
+  let grep_term = input("/")
+  if !empty(grep_term)
+    execute 'silent grep' grep_term | copen
+  else
+    echo "Empty search term"
+  endif
+  redraw!
+endfunction
+
+command! AgSearch call AgSearch()
+nnoremap <leader>s :AgSearch<CR>
