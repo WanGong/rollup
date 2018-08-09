@@ -39,7 +39,7 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 noremap <c-k> :Ack<space>
 "noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
 
-nmap <C-F11> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
+nnoremap <C-F11> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
   \:!cscope -b -i cscope.files -f cscope.out<CR>
   \:!rm -rf cscope.files <CR>
   \:cs reset<CR>
@@ -52,14 +52,30 @@ nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " Manually invoke
 let g:ycm_key_invoke_completion = '<C-a>'
 
-map <F5> :call CurtineIncSw()<CR>
+noremap <F5> :call CurtineIncSw()<CR>
 
-map <C-n> :NERDTreeToggle<CR>
-map <F8> :TagbarToggle<CR>
+"  " Auto expand NERDTree when the file is open
+"  " 1. Check if NERDTree is open or active
+"  function! IsNERDTreeOpen()
+"    return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+"  endfunction
+"  " 2. Call NERDTreeFind iff NERDTree is active, current window contains a
+"  " modifiable file, and we're not in vimdiff
+"  function! SyncTree()
+"    if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+"      NERDTreeFind
+"      wincmd p
+"    endif
+"  endfunction
+"  " 3. Highlight currently open buffer in NERDTree
+"  autocmd BufEnter * call SyncTree()
+
+noremap <C-n> :NERDTreeToggle<CR>
+noremap <F8> :TagbarToggle<CR>
 
 set tags=tags;/ " The ';' is used to find tags in parent dir
 
-map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
+noremap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
 
 " The following to auto find cscope.out in parent dir
 function! LoadCscope()
@@ -116,15 +132,46 @@ let MRU_Auto_Close = 0
 " let MRU_Use_Current_Window = 1
 
 " For buffer explore
-map <leader>b :BufExplorer<CR>
-map <leader>bh :BufExplorerHorizontalSplit<CR>
-map <leader>bv :BufExplorerVerticalSplit<CR>
+nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
+nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
 
 " For cpp highlight
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+
+
+" Combine NERDtree and tagbar
+" Remove the first line help info
+let NERDTreeMinimalUI=1
+" Set width
+let NERDTreeWinSize=28
+" Does not highlight the cursor of current file
+let NERDTreeHighlightCursorline=1
+" Setting for current directory
+let NERDTreeChDirMode = 2
+" Auto quit NERDTree when vim is quited
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+" Auto open NERDTree when vim is opened
+autocmd vimenter * NERDTree
+"nmap <F2> :NERDTreeToggle<CR>
+
+" Combine NERDTree and tagbar
+let g:tagbar_vertical = 25
+" Remove the first line help info
+let g:tagbar_compact = 1
+" Auto highlight tags when edit file
+let g:tagbar_autoshowtag = 1
+let g:tagbar_iconchars = ['▸', '▾']
+"nmap <F3> :TagbarToggle<CR>
+" Auto open NERDTree when vim is opened
+autocmd VimEnter * nested :TagbarOpen
+wincmd l
+" If the following line does not exist, when open vim, the cursor will in NERDTree
+autocmd VimEnter * wincmd l
+
+
 
 
 
@@ -171,6 +218,11 @@ nnoremap <leader>t :tabNext<CR>
 nnoremap <leader>e :Explore<CR>
 nnoremap <leader>ve :Vexplore<CR>
 nnoremap <leader>m :MRU<CR>
+nnoremap <leader>q :q!<CR>
+nnoremap <leader>Q :qall!<CR>
+nnoremap <leader>n :NERDTreeFind<cr>
+nnoremap <leader>b :buffers<CR>:buffer<Space>
+
 
 " For line length
 :set colorcolumn=80
@@ -244,3 +296,8 @@ endfunction
 
 command! AgSearch call AgSearch()
 nnoremap <leader>s :AgSearch<CR>
+
+
+
+
+
