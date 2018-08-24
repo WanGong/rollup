@@ -3,10 +3,8 @@ filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" Plugin 'terryma/vim-multiple-cursors'
-" Plugin 'taglist.vim'
-" Plugin 'itchyny/lightline.vim'
-
+" Plugin 'ryanoasis/vim-devicons'
+" Plugin 'sheerun/vim-polyglot'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
@@ -20,18 +18,20 @@ Plugin 'mileszs/ack.vim'
 Plugin 'vim-scripts/mru.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/bufexplorer.zip'
-Plugin 'tpope/vim-fugitive'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
-Bundle 'maksimr/vim-jsbeautify'
-
-Bundle 'winmanager'
+Plugin 'haya14busa/incsearch.vim'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 call vundle#end()
 
 
 """"""""""""""""""""""""""""""""setting for plugins""""""""""""""""""""""""""""
+
+set incsearch
 
 " For ack.vim, basic manual: O for open and close Quickfix; go open file but
 " return in Quickfix; t for open file in new tab
@@ -53,6 +53,8 @@ nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:ycm_key_invoke_completion = '<C-a>'
 
 noremap <F5> :call CurtineIncSw()<CR>
+
+" noremap <C-m> :MRU<CR>
 
 "  " Auto expand NERDTree when the file is open
 "  " 1. Check if NERDTree is open or active
@@ -94,7 +96,7 @@ au BufEnter /* call LoadCscope()
 
 " Use absolute path in cscope.out
 " : set csre
-: set nocsre
+set nocsre
 
 " Config for rtags, https://github.com/lyuts/vim-rtags
 let g:rtagsUseDefaultMappings = 1
@@ -108,9 +110,9 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
 let g:syntastic_cpp_cpplint_exec = 'cpplint'
 let g:syntastic_cpp_checkers = ['cpplint', 'gcc']
 let g:syntastic_cpp_cpplint_thres = 1
@@ -119,16 +121,13 @@ let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_style_error_symbol = '!'
 let g:syntastic_style_warning_symbol = '?'
+let g:syntastic_loc_list_height = 5
 
-" For lightline.vim
-if !has('gui_running')
-  set t_Co=256
-endif
 
 " For mru
-let MRU_Max_Entries = 1000
+let MRU_Max_Entries = 200
 let MRU_Window_Height = 10
-let MRU_Auto_Close = 0
+let MRU_Auto_Close = 1
 " let MRU_Use_Current_Window = 1
 
 " For buffer explore
@@ -140,6 +139,8 @@ let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
+
 
 
 " Combine NERDtree and tagbar
@@ -154,11 +155,11 @@ let NERDTreeChDirMode = 2
 " Auto quit NERDTree when vim is quited
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 " Auto open NERDTree when vim is opened
-autocmd vimenter * NERDTree
+" autocmd vimenter * NERDTree
 "nmap <F2> :NERDTreeToggle<CR>
 
 " Combine NERDTree and tagbar
-let g:tagbar_vertical = 25
+" let g:tagbar_vertical = 25
 " Remove the first line help info
 let g:tagbar_compact = 1
 " Auto highlight tags when edit file
@@ -166,13 +167,10 @@ let g:tagbar_autoshowtag = 1
 let g:tagbar_iconchars = ['▸', '▾']
 "nmap <F3> :TagbarToggle<CR>
 " Auto open NERDTree when vim is opened
-autocmd VimEnter * nested :TagbarOpen
-wincmd l
+" autocmd VimEnter * nested :TagbarOpen
+" wincmd l
 " If the following line does not exist, when open vim, the cursor will in NERDTree
 autocmd VimEnter * wincmd l
-
-
-
 
 
 
@@ -183,9 +181,6 @@ filetype plugin indent on
 
 set background=dark
 colorscheme desert
-"colorscheme solarized
-"colorscheme molokai
-"colorscheme phd
 
 set expandtab
 set shiftwidth=2
@@ -212,12 +207,10 @@ set cursorline
 hi Search ctermbg=LightYellow
 hi Search ctermfg=Red
 
-nnoremap <leader>c byw<CR>
 nnoremap <leader>l :lclose<CR>
 nnoremap <leader>t :tabNext<CR>
 nnoremap <leader>e :Explore<CR>
 nnoremap <leader>ve :Vexplore<CR>
-nnoremap <leader>m :MRU<CR>
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>Q :qall!<CR>
 nnoremap <leader>n :NERDTreeFind<cr>
@@ -270,6 +263,7 @@ function! AutoHighlightToggle()
   endif
 endfunction
 
+
 " Use ag replace grep, the Silver Searcher
 if executable('ag')
   " Use ag over grep
@@ -296,8 +290,6 @@ endfunction
 
 command! AgSearch call AgSearch()
 nnoremap <leader>s :AgSearch<CR>
-
-
 
 
 
