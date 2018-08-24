@@ -290,6 +290,3 @@ endfunction
 
 command! AgSearch call AgSearch()
 nnoremap <leader>s :AgSearch<CR>
-
-
-
