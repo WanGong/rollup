@@ -5,6 +5,10 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " Plugin 'ryanoasis/vim-devicons'
 " Plugin 'sheerun/vim-polyglot'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'vim-scripts/mru.vim'
+" Plugin 'jeaye/color_coded'
+Plugin 'w0rp/ale'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
@@ -13,9 +17,7 @@ Plugin 'brookhong/cscope.vim'
 Plugin 'lyuts/vim-rtags'
 Plugin 'ericcurtin/CurtineIncSw.vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'scrooloose/syntastic'
 Plugin 'mileszs/ack.vim'
-Plugin 'vim-scripts/mru.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'octol/vim-cpp-enhanced-highlight'
@@ -25,24 +27,48 @@ Plugin 'haya14busa/incsearch.vim'
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'vim-airline/vim-airline-themes'
+
 
 call vundle#end()
 
 
 """"""""""""""""""""""""""""""""setting for plugins""""""""""""""""""""""""""""
 
-set incsearch
+" for ctrlp
+noremap <c-m> :CtrlPMRUFiles<cr>
+noremap <c-b> :CtrlPBuffer<cr>
+
+
+" for airline
+let g:airline_theme="simple"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#formatter = 'jsformatter'
+let g:airline#extensions#tabline#buffer_nr_show = 0
+let g:airline#extensions#tabline#fnametruncate = 16
+let g:airline#extensions#tabline#fnamecollapse = 2
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#error_symbol = '✗: '
+let g:airline#extensions#ale#warning_symbol = '⚠ : '
+let g:airline#extensions#ale#show_line_numbers = 0
+
+
+" Disable color_coded in diff mode
+" if &diff
+"   let g:color_coded_enabled = 0
+" endif
+
 
 " For ack.vim, basic manual: O for open and close Quickfix; go open file but
 " return in Quickfix; t for open file in new tab
 let g:ackprg = 'ag --nogroup --nocolor --column'
 noremap <c-k> :Ack<space>
 "noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
-
-nnoremap <C-F11> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
-  \:!cscope -b -i cscope.files -f cscope.out<CR>
-  \:!rm -rf cscope.files <CR>
-  \:cs reset<CR>
 
 
 " Set default config file, add compile_commands.json
@@ -52,9 +78,9 @@ nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " Manually invoke
 let g:ycm_key_invoke_completion = '<C-a>'
 
+
 noremap <F5> :call CurtineIncSw()<CR>
 
-" noremap <C-m> :MRU<CR>
 
 "  " Auto expand NERDTree when the file is open
 "  " 1. Check if NERDTree is open or active
@@ -72,12 +98,15 @@ noremap <F5> :call CurtineIncSw()<CR>
 "  " 3. Highlight currently open buffer in NERDTree
 "  autocmd BufEnter * call SyncTree()
 
-noremap <C-n> :NERDTreeToggle<CR>
-noremap <F8> :TagbarToggle<CR>
 
 set tags=tags;/ " The ';' is used to find tags in parent dir
-
 noremap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
+
+
+nnoremap <C-F11> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
+  \:!cscope -b -i cscope.files -f cscope.out<CR>
+  \:!rm -rf cscope.files <CR>
+  \:cs reset<CR>
 
 " The following to auto find cscope.out in parent dir
 function! LoadCscope()
@@ -98,30 +127,45 @@ au BufEnter /* call LoadCscope()
 " : set csre
 set nocsre
 
+
 " Config for rtags, https://github.com/lyuts/vim-rtags
 let g:rtagsUseDefaultMappings = 1
 let g:rtagsUseLocationList = 0
 let g:rtagsJumpStackMaxSize = 100
 
 
-" For syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" for ale
+let g:ale_set_highlights = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
+" let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✔ %d']
+let g:ale_linters = {
+\   'c++': ['clang'],
+\   'c': ['clang'],
+\   'python': ['pylint'],
+\}
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
-let g:syntastic_cpp_cpplint_exec = 'cpplint'
-let g:syntastic_cpp_checkers = ['cpplint', 'gcc']
-let g:syntastic_cpp_cpplint_thres = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "⚠"
-let g:syntastic_style_error_symbol = '!'
-let g:syntastic_style_warning_symbol = '?'
-let g:syntastic_loc_list_height = 5
+
+" For syntastic
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_cpp_cpplint_exec = 'cpplint'
+" let g:syntastic_cpp_checkers = ['cpplint', 'gcc']
+" let g:syntastic_cpp_cpplint_thres = 1
+" let g:syntastic_aggregate_errors = 1
+" let g:syntastic_error_symbol = "✗"
+" let g:syntastic_warning_symbol = "⚠"
+" let g:syntastic_style_error_symbol = '!'
+" let g:syntastic_style_warning_symbol = '?'
+" let g:syntastic_loc_list_height = 5
 
 
 " For mru
@@ -130,9 +174,11 @@ let MRU_Window_Height = 10
 let MRU_Auto_Close = 1
 " let MRU_Use_Current_Window = 1
 
+
 " For buffer explore
 nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
 nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
+
 
 " For cpp highlight
 let g:cpp_class_scope_highlight = 1
@@ -142,6 +188,9 @@ let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 
 
+
+noremap <C-n> :NERDTreeToggle<CR>
+noremap <F8> :TagbarToggle<CR>
 
 " Combine NERDtree and tagbar
 " Remove the first line help info
@@ -175,7 +224,6 @@ autocmd VimEnter * wincmd l
 
 
 
-
 """"""""""""""""""""""""""""""""setting for basic""""""""""""""""""""""""""""
 filetype plugin indent on
 
@@ -202,6 +250,7 @@ let mapleader=";"
 
 " Highlight search result
 set hlsearch
+set incsearch
 set cursorline
 " set cursorcolumn
 hi Search ctermbg=LightYellow
@@ -290,3 +339,5 @@ endfunction
 
 command! AgSearch call AgSearch()
 nnoremap <leader>s :AgSearch<CR>
+
+
