@@ -6,8 +6,8 @@ call vundle#begin()
 " Plugin 'ryanoasis/vim-devicons'
 " Plugin 'sheerun/vim-polyglot'
 " Plugin 'scrooloose/syntastic'
-" Plugin 'vim-scripts/mru.vim'
 " Plugin 'jeaye/color_coded'
+Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
@@ -28,6 +28,7 @@ Plugin 'maksimr/vim-jsbeautify'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'rhysd/vim-clang-format'
 
 
 call vundle#end()
@@ -35,8 +36,14 @@ call vundle#end()
 
 """"""""""""""""""""""""""""""""setting for plugins""""""""""""""""""""""""""""
 
+" for clang-format
+noremap <F9> :ClangFormat<cr>
+
+" for mru
+" MUST avoid to use <c-m>, Ctrl + m = Enter
+
+
 " for ctrlp
-noremap <c-m> :CtrlPMRUFiles<cr>
 noremap <c-b> :CtrlPBuffer<cr>
 
 
@@ -148,7 +155,6 @@ let g:ale_linters = {
 \   'python': ['pylint'],
 \}
 
-
 " For syntastic
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
@@ -248,6 +254,9 @@ set encoding=utf-8
 
 let mapleader=";"
 
+set clipboard=unnamed
+noremap <F10> "+yy<CR>
+
 " Highlight search result
 set hlsearch
 set incsearch
@@ -287,6 +296,7 @@ nnoremap zz :%s/\s\+$// <CR> " Delete unused space keys at the end of a line.
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+set backspace=indent,eol,start
 
 
 """"""""""""""""""""""""""""""""setting for script""""""""""""""""""""""""""""
