@@ -107,10 +107,10 @@ noremap <F5> :call CurtineIncSw()<CR>
 
 
 set tags=tags;/ " The ';' is used to find tags in parent dir
-noremap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
+noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
 
 
-nnoremap <C-F11> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
+nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
   \:!cscope -b -i cscope.files -f cscope.out<CR>
   \:!rm -rf cscope.files <CR>
   \:cs reset<CR>
