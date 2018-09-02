@@ -277,7 +277,7 @@ nnoremap <leader>b :buffers<CR>:buffer<Space>
 
 " For line length
 :set colorcolumn=80
-highlight ColorColumn ctermbg=8
+highlight ColorColumn ctermbg=10
 
 " Remove current file in vim
 " nnoremap rm :call delete(expand('%')) \| bdelete!<CR>
