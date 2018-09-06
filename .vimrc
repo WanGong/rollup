@@ -4,9 +4,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " Plugin 'ryanoasis/vim-devicons'
-" Plugin 'sheerun/vim-polyglot'
-" Plugin 'scrooloose/syntastic'
-" Plugin 'jeaye/color_coded'
+" Plugin 'sheerun/vim-polyglot' " Plugin 'scrooloose/syntastic' " Plugin 'jeaye/color_coded'
 Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
 Plugin 'VundleVim/Vundle.vim'
@@ -29,7 +27,9 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'rhysd/vim-clang-format'
-
+Plugin 'WanGong/vim-mark'
+Plugin 'vim-scripts/ingo-library' " Dependent by vim-mark
+Plugin 'Yggdroot/LeaderF'
 
 call vundle#end()
 
@@ -79,9 +79,8 @@ noremap <c-k> :Ack<space>
 
 
 " Set default config file, add compile_commands.json
-let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/bundle/YouCompleteMe/python/ycm/tests/testdata/.ycm_extra_conf.py'
-" Go to definition else declaration
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" to support c++: 1. sudo apt-get install libc++-dev; 2. add '-isystem' '/usr/include/c++/v1/' to .ycm_extra_conf.py
+let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 " Manually invoke
 let g:ycm_key_invoke_completion = '<C-a>'
 
@@ -265,19 +264,33 @@ set cursorline
 hi Search ctermbg=LightYellow
 hi Search ctermfg=Red
 
+hi clear SpellBad
+hi SpellBad cterm=underline,italic
+noremap <F4> :set spell!<cr>
+autocmd InsertEnter * setlocal spell
+autocmd InsertLeave * setlocal nospell
+" set spell
+" autocmd BufRead,BufNewFile *.h setlocal spell
+
+
+
 nnoremap <leader>l :lclose<CR>
+nnoremap <leader>o :only<CR>
+nnoremap <leader>u :MRU<CR>
 nnoremap <leader>t :tabNext<CR>
 nnoremap <leader>e :Explore<CR>
 nnoremap <leader>ve :Vexplore<CR>
 nnoremap <leader>q :q!<CR>
+nnoremap <leader>w :w!<CR>
 nnoremap <leader>Q :qall!<CR>
 nnoremap <leader>n :NERDTreeFind<cr>
 nnoremap <leader>b :buffers<CR>:buffer<Space>
+map <C-q><C-q> :bNext<cr>
 
 
 " For line length
 :set colorcolumn=80
-highlight ColorColumn ctermbg=10
+highlight ColorColumn ctermbg=6
 
 " Remove current file in vim
 " nnoremap rm :call delete(expand('%')) \| bdelete!<CR>
@@ -297,6 +310,10 @@ nnoremap zz :%s/\s\+$// <CR> " Delete unused space keys at the end of a line.
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 set backspace=indent,eol,start
+
+set matchpairs+=<:>
+hi MatchParen cterm=none ctermbg=green ctermfg=blue
+" au FileType c,cpp,java set matchpairs+==:;
 
 
 """"""""""""""""""""""""""""""""setting for script""""""""""""""""""""""""""""
@@ -349,5 +366,6 @@ endfunction
 
 command! AgSearch call AgSearch()
 nnoremap <leader>s :AgSearch<CR>
+
 
 
