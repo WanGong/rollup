@@ -3,35 +3,35 @@ filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" Plugin 'ryanoasis/vim-devicons'
-" Plugin 'sheerun/vim-polyglot'
-" Plugin 'scrooloose/syntastic'
 " Plugin 'jeaye/color_coded'
+" Plugin 'ryanoasis/vim-devicons'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'sheerun/vim-polyglot'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'WanGong/vim-mark'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'Yggdroot/LeaderF'
+Plugin 'Yggdroot/indentLine'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'brookhong/cscope.vim'
+Plugin 'ericcurtin/CurtineIncSw.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'haya14busa/incsearch.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'lyuts/vim-rtags'
+Plugin 'majutsushi/tagbar'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'mileszs/ack.vim'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'rhysd/vim-clang-format'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-scripts/bufexplorer.zip'
+Plugin 'vim-scripts/ingo-library' " Dependent by vim-mark
 Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'brookhong/cscope.vim'
-Plugin 'lyuts/vim-rtags'
-Plugin 'ericcurtin/CurtineIncSw.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'mileszs/ack.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-scripts/bufexplorer.zip'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'Yggdroot/indentLine'
-Plugin 'haya14busa/incsearch.vim'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'rhysd/vim-clang-format'
-Plugin 'WanGong/vim-mark'
-Plugin 'vim-scripts/ingo-library' " Dependent by vim-mark
-Plugin 'Yggdroot/LeaderF'
 
 call vundle#end()
 
@@ -127,10 +127,10 @@ let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
 " let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✔ %d']
 let g:ale_linters = {
-\   'c++': ['clang'],
-\   'c': ['clang'],
-\   'python': ['pylint'],
-\}
+    \   'c++': ['clang'],
+    \   'c': ['clang'],
+    \   'python': ['pylint'],
+    \}
 
 " for syntastic
 " set statusline+=%#warningmsg#
@@ -206,6 +206,28 @@ filetype plugin indent on
 set background=dark
 colorscheme desert
 
+" to config vimdiff for git, run the following commands:
+" 1. git config --local  diff.tool vimdiff
+" 2. git config --local  difftool.prompt false
+" 3. git config --local  alias.d difftool
+" config the following to enable git trust vim exitcode
+" 4. git config --local  difftool.trustExitCode true
+" 5. git config --local  mergetool.trustExitCode true
+" usage:
+" 1. git d for the vimdiff
+" 2. :qa for exit current file;
+" 3. :cq for interrupt the vimdiff
+if &diff
+  syntax off
+  highlight DiffAdd    cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffDelete cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffChange cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffText   cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+else
+  syntax enable
+"  syntax on "Highlight the code
+endif
+
 set expandtab
 set shiftwidth=2
 set softtabstop=2
@@ -213,9 +235,6 @@ set softtabstop=2
 set smartcase
 
 set number
-
-syntax enable
-syntax on "Highlight the code
 
 set history=1000 "History command num
 
@@ -364,4 +383,3 @@ au BufEnter /* call LoadCscope()
 " use absolute path in cscope.out
 " : set csre
 set nocsre
-
