@@ -5,8 +5,9 @@
 "                       _/_
 "                      (/
 "
-"oh my .vimrc, the chart is generated from patorjk.com/software/taag/ with
-"JS Cursive and small slant front.
+" oh my .vimrc, the chart is generated from patorjk.com/software/taag/ with
+" JS Cursive and small slant front.
+
 
 
 "  _   __             ____      ___  __          _
@@ -52,112 +53,74 @@ call vundle#end()
 
 
 
-"    ___           _       _____          ____
-"   / _ )___ ____ (_)___  / ___/__  ___  / _(_)__ _
-"  / _  / _ `(_-</ / __/ / /__/ _ \/ _ \/ _/ / _ `/
-" /____/\_,_/___/_/\__/  \___/\___/_//_/_//_/\_, /
-"                                           /___/
-
-filetype plugin indent on
-
-let mapleader=";"
-
-set background=dark
-colorscheme desert
-
-set expandtab
-set shiftwidth=2
-set softtabstop=2
-
-set number
-set history=1000 " history command number
-
-set autoindent
-set cindent
-
-set encoding=utf-8
-set clipboard=unnamed
-set smartcase
-set tags=tags;/ " the ';' is used to find tags in parent dir
-
-set hlsearch " highlight search result
-set incsearch
-
-set cursorline
-set backspace=indent,eol,start
-set matchpairs+=<:>
-set nocsre " use absolute path in cscope.out, set csre
-highlight MatchParen cterm=none ctermbg=green ctermfg=blue
-" au FileType c,cpp,java set matchpairs+==:;
-
-" code fold, za: on/off current fold, zM: off all folds, zR: on all folds
-" set foldmethod=indent
-set foldmethod=syntax
-set nofoldenable " on/off
-
-set colorcolumn=80 " for line length
-highlight ColorColumn ctermbg=6
-
-highlight Search ctermbg=LightYellow
-highlight Search ctermfg=Red
-
-highlight clear SpellBad
-highlight SpellBad cterm=underline,italic
-
-
-
-
-"
-"   _____                __          _____          ____
-"  / ___/__  __ _  ___  / /____ __  / ___/__  ___  / _(_)__ _
-" / /__/ _ \/  ' \/ _ \/ / -_) \ / / /__/ _ \/ _ \/ _/ / _ `/
-" \___/\___/_/_/_/ .__/_/\__/_\_\  \___/\___/_//_/_//_/\_, /
-"               /_/                                   /___/
+"    ____    _____  ____        _      __
+"   / __/__ / / _/ / __/_______(_)__  / /____
+"  _\ \/ -_) / _/ _\ \/ __/ __/ / _ \/ __(_-<
+" /___/\__/_/_/  /___/\__/_/ /_/ .__/\__/___/
+"                             /_/
 "
 
-" to config vimdiff for git, run the following commands:
-" 1. git config --local  diff.tool vimdiff
-" 2. git config --local  difftool.prompt false
-" 3. git config --local  alias.d difftool
-" config the following to enable git trust vim exitcode
-" 4. git config --local  difftool.trustExitCode true
-" 5. git config --local  mergetool.trustExitCode true
-" usage:
-" 1. git d for the vimdiff
-" 2. :qa for exit current file;
-" 3. :cq for interrupt the vimdiff
-if &diff
-  syntax off
-  highlight DiffAdd    cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffDelete cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffChange cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffText   cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-else
-  syntax enable
-"  syntax on "Highlight the code
+" highlight all instances of word under cursor, Type z/ to toggle highlighting on/off.
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
+
+
+" use ag replace grep, the Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
 endif
 
 
-" when FileType python, create a mapping to execute the current buffer with python
-autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+" self defined command for ag search
+function! AgSearch()
+  let grep_term = input("/")
+  if !empty(grep_term)
+    execute 'silent grep' grep_term | copen
+  else
+    echo "Empty search term"
+  endif
+  redraw!
+endfunction
+command! AgSearch call AgSearch()
 
 
-" record the last postition, pulled from :help last-position-jump in vim
-:au BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-  \ |   exe "normal! g`\""
-  \ | endif
-
-
-autocmd InsertEnter * setlocal spell
-autocmd InsertLeave * setlocal nospell
-" autocmd BufRead,BufNewFile *.h setlocal spell
-
-
-" define a hithlight group for extra white space
-highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
-match ExtraWhitespace /\s\+$/
-
+" the following to auto find cscope.out in parent dir
+function! LoadCscope()
+  let db = findfile("cscope.out", ".;")
+  if (!empty(db))
+    let path = strpart(db, 0, match(db, "/cscope.out$"))
+    set nocscopeverbose " suppress 'duplicate connection' error
+    exe "cs add " . db . " " . path
+    set cscopeverbose
+  " Else add the database pointed to by environment variable
+  elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+  endif
+endfunction
+au BufEnter /* call LoadCscope()
 
 
 
@@ -254,6 +217,112 @@ autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NE
 
 
 
+"
+"   _____                __          _____          ____
+"  / ___/__  __ _  ___  / /____ __  / ___/__  ___  / _(_)__ _
+" / /__/ _ \/  ' \/ _ \/ / -_) \ / / /__/ _ \/ _ \/ _/ / _ `/
+" \___/\___/_/_/_/ .__/_/\__/_\_\  \___/\___/_//_/_//_/\_, /
+"               /_/                                   /___/
+"
+
+" to config vimdiff for git, run the following commands:
+" 1. git config --local  diff.tool vimdiff
+" 2. git config --local  difftool.prompt false
+" 3. git config --local  alias.d difftool
+" config the following to enable git trust vim exitcode
+" 4. git config --local  difftool.trustExitCode true
+" 5. git config --local  mergetool.trustExitCode true
+" usage:
+" 1. git d for the vimdiff
+" 2. :qa for exit current file;
+" 3. :cq for interrupt the vimdiff
+if &diff
+  syntax off
+  highlight DiffAdd    cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffDelete cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffChange cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffText   cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+else
+  syntax enable
+"  syntax on "Highlight the code
+endif
+
+
+" when FileType python, create a mapping to execute the current buffer with python
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+
+
+" record the last postition, pulled from :help last-position-jump in vim
+:au BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
+
+
+autocmd InsertEnter * setlocal spell
+autocmd InsertLeave * setlocal nospell
+" autocmd BufRead,BufNewFile *.h setlocal spell
+
+
+" define a hithlight group for extra white space
+highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+match ExtraWhitespace /\s\+$/
+
+
+
+
+"    ___           _       _____          ____
+"   / _ )___ ____ (_)___  / ___/__  ___  / _(_)__ _
+"  / _  / _ `(_-</ / __/ / /__/ _ \/ _ \/ _/ / _ `/
+" /____/\_,_/___/_/\__/  \___/\___/_//_/_//_/\_, /
+"                                           /___/
+
+filetype plugin indent on
+
+let mapleader=";"
+
+set background=dark
+colorscheme desert
+
+set nocsre " use absolute path in cscope.out, set csre
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+
+set number
+set history=1000 " history command number
+
+set autoindent
+set cindent
+
+set encoding=utf-8
+set clipboard=unnamed
+set tags=tags;/ " the ';' is used to find tags in parent dir
+
+set incsearch
+set hlsearch " highlight search result
+highlight Search ctermbg=LightYellow ctermfg=Red
+
+set cursorline
+set backspace=indent,eol,start
+set matchpairs+=<:>
+highlight MatchParen cterm=none ctermbg=green ctermfg=blue
+" au FileType c,cpp,java set matchpairs+==:;
+
+" code fold, za: on/off current fold, zM: off all folds, zR: on all folds
+" set foldmethod=indent
+set foldmethod=syntax
+set nofoldenable " on/off
+
+set colorcolumn=80 " for line length
+highlight ColorColumn ctermbg=6
+
+highlight clear SpellBad
+highlight SpellBad cterm=underline,italic
+
+set smartcase
+
+
 
 
 "    __ __           __  ___               _
@@ -292,79 +361,6 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
   \:!cscope -b -i cscope.files -f cscope.out<CR>
   \:!rm -rf cscope.files <CR>
   \:cs reset<CR>
-
-
-
-
-"    ____    _____  ____        _      __
-"   / __/__ / / _/ / __/_______(_)__  / /____
-"  _\ \/ -_) / _/ _\ \/ __/ __/ / _ \/ __(_-<
-" /___/\__/_/_/  /___/\__/_/ /_/ .__/\__/___/
-"                             /_/
-"
-
-" highlight all instances of word under cursor, Type z/ to toggle highlighting on/off.
-function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-    return 1
-  endif
-endfunction
-
-
-" use ag replace grep, the Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-
-" self defined command for ag search
-function! AgSearch()
-  let grep_term = input("/")
-  if !empty(grep_term)
-    execute 'silent grep' grep_term | copen
-  else
-    echo "Empty search term"
-  endif
-  redraw!
-endfunction
-command! AgSearch call AgSearch()
-
-
-" the following to auto find cscope.out in parent dir
-function! LoadCscope()
-  let db = findfile("cscope.out", ".;")
-  if (!empty(db))
-    let path = strpart(db, 0, match(db, "/cscope.out$"))
-    set nocscopeverbose " suppress 'duplicate connection' error
-    exe "cs add " . db . " " . path
-    set cscopeverbose
-  " Else add the database pointed to by environment variable
-  elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
-  endif
-endfunction
-au BufEnter /* call LoadCscope()
-
 
 
 
@@ -428,6 +424,7 @@ au BufEnter /* call LoadCscope()
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 " noremap <c-k> :Ack<space>
 " noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
+
 
 
 
