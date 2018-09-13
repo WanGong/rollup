@@ -25,7 +25,8 @@ call vundle#begin()
 " Plugin 'mileszs/ack.vim'
 " Plugin 'ryanoasis/vim-devicons'
 " Plugin 'scrooloose/syntastic'
-" Plugin 'sheerun/vim-polyglot'
+" Plugin 'sheerun/vim-polyglot' " a powerful language pack
+" Plugin 'skywind3000/asyncrun.vim'
 " Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'VundleVim/Vundle.vim'
@@ -46,7 +47,8 @@ Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-scripts/ingo-library' " Dependent by vim-mark
+Plugin 'vim-python/python-syntax'
+Plugin 'vim-scripts/ingo-library' " dependent by vim-mark
 Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
 call vundle#end()
@@ -83,12 +85,10 @@ endfunction
 
 " use ag replace grep, the Silver Searcher
 if executable('ag')
-  " Use ag over grep
+  " use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  " use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
@@ -188,7 +188,7 @@ let g:ale_linters = {
     \}
 
 
-" For cpp highlight
+" for cpp highlight
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
@@ -301,7 +301,7 @@ set tags=tags;/ " the ';' is used to find tags in parent dir
 
 set incsearch
 set hlsearch " highlight search result
-highlight Search ctermbg=LightYellow ctermfg=Red
+highlight Search ctermbg=LightYellow ctermfg=Red cterm=bold,italic
 
 set cursorline
 set backspace=indent,eol,start
@@ -315,7 +315,7 @@ set foldmethod=syntax
 set nofoldenable " on/off
 
 set colorcolumn=80 " for line length
-highlight ColorColumn ctermbg=6
+highlight ColorColumn ctermbg=8
 
 highlight clear SpellBad
 highlight SpellBad cterm=underline,italic
@@ -332,7 +332,7 @@ set smartcase
 "          /___/             /_/  /_/          /___/
 "
 
-nnoremap <leader>e :Explore<CR>
+nnoremap <leader>e :tabedit<CR>
 nnoremap <leader>l :lclose<CR>
 nnoremap <leader>n :NERDTreeFind<cr>
 nnoremap <leader>o :only<CR>
@@ -347,7 +347,6 @@ nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-d
 nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
 noremap <C-b> :CtrlPBuffer<cr> " for ctrlp
 noremap <C-n> :NERDTreeToggle<CR>
-noremap <F10> "+yy<CR>
 noremap <F2> :MarkClear<cr> " for vim-mark
 noremap <F3> :YcmCompleter GetType<cr>
 noremap <F4> :set spell!<cr>
@@ -355,6 +354,7 @@ noremap <F5> :call CurtineIncSw()<CR>
 noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F9> :ClangFormat<cr> " for clang-format
+noremap <F10> "+yy<CR>
 
 
 nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
@@ -424,6 +424,11 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 " noremap <c-k> :Ack<space>
 " noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
+
+
+" for skywind3000/asyncrun.vim
+" let g:asyncrun_open = 8
+
 
 
 
