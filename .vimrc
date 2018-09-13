@@ -1,6 +1,22 @@
+" Copyright 2018. All rights reserved.
+"
+"   _,_ /_      ,____,         _,     .  ,____,   ,_   __
+" _(_/_/ (_   _/ / / (__(_/_    (_/__/__/ / / (__/ (__(_,_
+"                       _/_
+"                      (/
+"
+"oh my .vimrc, the chart is generated from patorjk.com/software/taag/ with
+"JS Cursive and small slant front.
+
+
+"  _   __             ____      ___  __          _
+" | | / /_ _____  ___/ / /__   / _ \/ /_ _____ _(_)__  ___
+" | |/ / // / _ \/ _  / / -_) / ___/ / // / _ `/ / _ \(_-<
+" |___/\_,_/_//_/\_,_/_/\__/ /_/  /_/\_,_/\_, /_/_//_/___/
+"                                         /___/
+"
 set nocompatible
 filetype off
-
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " Plugin 'haya14busa/incsearch.vim'
@@ -32,19 +48,125 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-scripts/ingo-library' " Dependent by vim-mark
 Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
-
 call vundle#end()
 
 
-""""""""""""""""""""""""""""""""setting for plugins""""""""""""""""""""""""""""
 
-" for vim-mark
-noremap <F2> :MarkClear<cr>
+"    ___           _       _____          ____
+"   / _ )___ ____ (_)___  / ___/__  ___  / _(_)__ _
+"  / _  / _ `(_-</ / __/ / /__/ _ \/ _ \/ _/ / _ `/
+" /____/\_,_/___/_/\__/  \___/\___/_//_/_//_/\_, /
+"                                           /___/
+
+filetype plugin indent on
+
+let mapleader=";"
+
+set background=dark
+colorscheme desert
+
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+
+set number
+set history=1000 " history command number
+
+set autoindent
+set cindent
+
+set encoding=utf-8
+set clipboard=unnamed
+set smartcase
+set tags=tags;/ " the ';' is used to find tags in parent dir
+
+set hlsearch " highlight search result
+set incsearch
+
+set cursorline
+set backspace=indent,eol,start
+set matchpairs+=<:>
+set nocsre " use absolute path in cscope.out, set csre
+highlight MatchParen cterm=none ctermbg=green ctermfg=blue
+" au FileType c,cpp,java set matchpairs+==:;
+
+" code fold, za: on/off current fold, zM: off all folds, zR: on all folds
+" set foldmethod=indent
+set foldmethod=syntax
+set nofoldenable " on/off
+
+set colorcolumn=80 " for line length
+highlight ColorColumn ctermbg=6
+
+highlight Search ctermbg=LightYellow
+highlight Search ctermfg=Red
+
+highlight clear SpellBad
+highlight SpellBad cterm=underline,italic
 
 
-" for clang-format
-noremap <F9> :ClangFormat<cr>
 
+
+"
+"   _____                __          _____          ____
+"  / ___/__  __ _  ___  / /____ __  / ___/__  ___  / _(_)__ _
+" / /__/ _ \/  ' \/ _ \/ / -_) \ / / /__/ _ \/ _ \/ _/ / _ `/
+" \___/\___/_/_/_/ .__/_/\__/_\_\  \___/\___/_//_/_//_/\_, /
+"               /_/                                   /___/
+"
+
+" to config vimdiff for git, run the following commands:
+" 1. git config --local  diff.tool vimdiff
+" 2. git config --local  difftool.prompt false
+" 3. git config --local  alias.d difftool
+" config the following to enable git trust vim exitcode
+" 4. git config --local  difftool.trustExitCode true
+" 5. git config --local  mergetool.trustExitCode true
+" usage:
+" 1. git d for the vimdiff
+" 2. :qa for exit current file;
+" 3. :cq for interrupt the vimdiff
+if &diff
+  syntax off
+  highlight DiffAdd    cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffDelete cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffChange cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffText   cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+else
+  syntax enable
+"  syntax on "Highlight the code
+endif
+
+
+" when FileType python, create a mapping to execute the current buffer with python
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+
+
+" record the last postition, pulled from :help last-position-jump in vim
+:au BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
+
+
+autocmd InsertEnter * setlocal spell
+autocmd InsertLeave * setlocal nospell
+" autocmd BufRead,BufNewFile *.h setlocal spell
+
+
+" define a hithlight group for extra white space
+highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+match ExtraWhitespace /\s\+$/
+
+
+
+
+"    ___  __          _        _____          ____
+"   / _ \/ /_ _____ _(_)__    / ___/__  ___  / _(_)__ _
+"  / ___/ / // / _ `/ / _ \  / /__/ _ \/ _ \/ _/ / _ `/
+" /_/  /_/\_,_/\_, /_/_//_/  \___/\___/_//_/_//_/\_, /
+"             /___/                             /___/
+"
 
 " for mru, MUST avoid to use <c-m>, Ctrl + m = Enter
 let MRU_Max_Entries = 200
@@ -76,49 +198,13 @@ let g:airline#extensions#ale#warning_symbol = '⚠ : '
 let g:airline#extensions#ale#show_line_numbers = 0
 
 
-" disable color_coded in diff mode
-" if &diff
-"   let g:color_coded_enabled = 0
-" endif
-
-
-" for ack.vim, basic manual: O for open and close Quickfix; go open file but
-" return in Quickfix; t for open file in new tab
-" let g:ackprg = 'ag --nogroup --nocolor --column'
-" noremap <c-k> :Ack<space>
-"noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
-
-
-" set default config file, add compile_commands.json
 " to support c++: 1. sudo apt-get install libc++-dev; 2. add '-isystem' '/usr/include/c++/v1/' to .ycm_extra_conf.py
 let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
-" Manually invoke
-let g:ycm_key_invoke_completion = '<C-a>'
+let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
 let g:ycm_autoclose_preview_window_after_insertion = 1
-noremap <F3> :YcmCompleter GetType<cr>
 
 
-noremap <F5> :call CurtineIncSw()<CR>
-
-
-"  " auto expand NERDTree when the file is open
-"  " 1. Check if NERDTree is open or active
-"  function! IsNERDTreeOpen()
-"    return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-"  endfunction
-"  " 2. Call NERDTreeFind iff NERDTree is active, current window contains a
-"  " modifiable file, and we're not in vimdiff
-"  function! SyncTree()
-"    if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-"      NERDTreeFind
-"      wincmd p
-"    endif
-"  endfunction
-"  " 3. Highlight currently open buffer in NERDTree
-"  autocmd BufEnter * call SyncTree()
-
-
-" Config for rtags, https://github.com/lyuts/vim-rtags
+" config for rtags, https://github.com/lyuts/vim-rtags
 let g:rtagsUseDefaultMappings = 1
 let g:rtagsUseLocationList = 0
 let g:rtagsJumpStackMaxSize = 100
@@ -138,30 +224,6 @@ let g:ale_linters = {
     \   'python': ['pylint'],
     \}
 
-" for syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 1
-" let g:syntastic_cpp_cpplint_exec = 'cpplint'
-" let g:syntastic_cpp_checkers = ['cpplint', 'gcc']
-" let g:syntastic_cpp_cpplint_thres = 1
-" let g:syntastic_aggregate_errors = 1
-" let g:syntastic_error_symbol = "✗"
-" let g:syntastic_warning_symbol = "⚠"
-" let g:syntastic_style_error_symbol = '!'
-" let g:syntastic_style_warning_symbol = '?'
-" let g:syntastic_loc_list_height = 5
-
-
-" for buffer explore
-" nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
-" nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
-" nnoremap <leader>b :BufExplorer<cr>
-" let g:bufExplorerDefaultHelp=0
 
 " For cpp highlight
 let g:cpp_class_scope_highlight = 1
@@ -171,160 +233,77 @@ let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 
 
-noremap <C-n> :NERDTreeToggle<CR>
-noremap <F8> :TagbarToggle<CR>
-
-" Combine NERDtree and tagbar
-" Remove the first line help info
-let NERDTreeMinimalUI=1
-" Set width
-let NERDTreeWinSize=40
-" Does not highlight the cursor of current file
-let NERDTreeHighlightCursorline=1
-" Setting for current directory
-let NERDTreeChDirMode = 2
+" combine NERDtree and tagbar
+let NERDTreeMinimalUI=1 " remove the first line help info
+let NERDTreeWinSize=40  " set width
+let NERDTreeHighlightCursorline=1 " does not highlight the cursor of current file
+let NERDTreeChDirMode = 2 " setting for current directory
 " Auto quit NERDTree when vim is quited
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 " Auto open NERDTree when vim is opened
 " autocmd vimenter * NERDTree
-"nmap <F2> :NERDTreeToggle<CR>
-
-" Combine NERDTree and tagbar
 " let g:tagbar_vertical = 25
-" Remove the first line help info
-let g:tagbar_compact = 1
+let g:tagbar_compact = 1 " remove the first line help info
 let g:tagbar_width = 30
-" Auto highlight tags when edit file
-let g:tagbar_autoshowtag = 1
+let g:tagbar_autoshowtag = 1 " auto highlight tags when edit file
 let g:tagbar_iconchars = ['▸', '▾']
 " Auto open NERDTree when vim is opened
 " autocmd VimEnter * nested :TagbarOpen
 " wincmd l
-" If the following line does not exist, when open vim, the cursor will in NERDTree
-autocmd VimEnter * wincmd l
+autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NERDTree
 
 
 
 
-""""""""""""""""""""""""""""""""setting for basic""""""""""""""""""""""""""""
-filetype plugin indent on
 
-set background=dark
-colorscheme desert
+"    __ __           __  ___               _
+"   / //_/__ __ __  /  |/  /__ ____  ___  (_)__  ___ ____
+"  / ,< / -_) // / / /|_/ / _ `/ _ \/ _ \/ / _ \/ _ `(_-<
+" /_/|_|\__/\_, / /_/  /_/\_,_/ .__/ .__/_/_//_/\_, /___/
+"          /___/             /_/  /_/          /___/
+"
 
-" to config vimdiff for git, run the following commands:
-" 1. git config --local  diff.tool vimdiff
-" 2. git config --local  difftool.prompt false
-" 3. git config --local  alias.d difftool
-" config the following to enable git trust vim exitcode
-" 4. git config --local  difftool.trustExitCode true
-" 5. git config --local  mergetool.trustExitCode true
-" usage:
-" 1. git d for the vimdiff
-" 2. :qa for exit current file;
-" 3. :cq for interrupt the vimdiff
-if &diff
-  syntax off
-  highlight DiffAdd    cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffDelete cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffChange cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffText   cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-else
-  syntax enable
-"  syntax on "Highlight the code
-endif
-
-set expandtab
-set shiftwidth=2
-set softtabstop=2
-
-
-set number
-
-set history=1000 "History command num
-
-set autoindent
-set cindent
-
-set encoding=utf-8
-
-let mapleader=";"
-
-set clipboard=unnamed
-noremap <F10> "+yy<CR>
-
-" Highlight search result
-set hlsearch
-set incsearch
-set cursorline
-" set cursorcolumn
-hi Search ctermbg=LightYellow
-hi Search ctermfg=Red
-
-hi clear SpellBad
-hi SpellBad cterm=underline,italic
-noremap <F4> :set spell!<cr>
-autocmd InsertEnter * setlocal spell
-autocmd InsertLeave * setlocal nospell
-" set spell
-" autocmd BufRead,BufNewFile *.h setlocal spell
-
-
-" record the last postition, pulled from :help last-position-jump in vim
-:au BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-  \ |   exe "normal! g`\""
-  \ | endif
-
-
-
-nnoremap <leader>l :lclose<CR>
-nnoremap <leader>o :only<CR>
-nnoremap <leader>u :MRU<CR>
-nnoremap <leader>t :tabNext<CR>
 nnoremap <leader>e :Explore<CR>
-nnoremap <leader>ve :Vexplore<CR>
-nnoremap <leader>q :q!<CR>
-nnoremap <leader>w :w!<CR>
-nnoremap <leader>Q :qall!<CR>
+nnoremap <leader>l :lclose<CR>
 nnoremap <leader>n :NERDTreeFind<cr>
-" nnoremap <leader>b :buffers<CR>:buffer<Space>
+nnoremap <leader>o :only<CR>
+nnoremap <leader>q :q!<CR>
+nnoremap <leader>s :AgSearch<CR> " trigger self-defined AgSearch()
+nnoremap <leader>t :tabNext<CR>
+nnoremap <leader>u :MRU<CR>
+nnoremap <leader>ve :Vexplore<CR>
+nnoremap <leader>w :w!<CR>
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR> " search the word under cursor
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-defined AutoHighlightToggle()
+nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
+noremap <C-b> :CtrlPBuffer<cr> " for ctrlp
+noremap <C-n> :NERDTreeToggle<CR>
+noremap <F10> "+yy<CR>
+noremap <F2> :MarkClear<cr> " for vim-mark
+noremap <F3> :YcmCompleter GetType<cr>
+noremap <F4> :set spell!<cr>
+noremap <F5> :call CurtineIncSw()<CR>
+noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
+noremap <F8> :TagbarToggle<CR>
+noremap <F9> :ClangFormat<cr> " for clang-format
 
 
-" for line length
-:set colorcolumn=80
-highlight ColorColumn ctermbg=6
+nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
+  \:!cscope -b -i cscope.files -f cscope.out<CR>
+  \:!rm -rf cscope.files <CR>
+  \:cs reset<CR>
 
 
-" code fold, za: on/off current fold, zM: off all folds, zR: on all folds
-" set foldmethod=indent
-set foldmethod=syntax
-set nofoldenable " on/off
 
-" define a hithlight group
-:highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
-:match ExtraWhitespace /\s\+$/
 
-nnoremap zz :%s/\s\+$// <CR> " Delete unused space keys at the end of a line.
+"    ____    _____  ____        _      __
+"   / __/__ / / _/ / __/_______(_)__  / /____
+"  _\ \/ -_) / _/ _\ \/ __/ __/ / _ \/ __(_-<
+" /___/\__/_/_/  /___/\__/_/ /_/ .__/\__/___/
+"                             /_/
+"
 
-" bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-set backspace=indent,eol,start
-
-set matchpairs+=<:>
-hi MatchParen cterm=none ctermbg=green ctermfg=blue
-" au FileType c,cpp,java set matchpairs+==:;
-
-set smartcase
-
-" when FileType python, create a mapping to execute the current buffer with python
-autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
-
-""""""""""""""""""""""""""""""""setting for script""""""""""""""""""""""""""""
-
-" highlight all instances of word under cursor, when idle. Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+" highlight all instances of word under cursor, Type z/ to toggle highlighting on/off.
 function! AutoHighlightToggle()
   let @/ = ''
   if exists('#auto_highlight')
@@ -368,21 +347,10 @@ function! AgSearch()
   endif
   redraw!
 endfunction
-
 command! AgSearch call AgSearch()
-nnoremap <leader>s :AgSearch<CR>
 
 
-set tags=tags;/ " The ';' is used to find tags in parent dir
-noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
-
-
-nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
-  \:!cscope -b -i cscope.files -f cscope.out<CR>
-  \:!rm -rf cscope.files <CR>
-  \:cs reset<CR>
-
-" The following to auto find cscope.out in parent dir
+" the following to auto find cscope.out in parent dir
 function! LoadCscope()
   let db = findfile("cscope.out", ".;")
   if (!empty(db))
@@ -397,7 +365,76 @@ function! LoadCscope()
 endfunction
 au BufEnter /* call LoadCscope()
 
-" use absolute path in cscope.out
-" : set csre
-set nocsre
+
+
+
+"    ___                            __         __
+"   / _ \___ ___  _______ _______ _/ /____ ___/ /
+"  / // / -_) _ \/ __/ -_) __/ _ `/ __/ -_) _  /
+" /____/\__/ .__/_/  \__/\__/\_,_/\__/\__/\_,_/
+"         /_/
+
+" " auto expand NERDTree when the file is open
+" " 1. Check if NERDTree is open or active
+" function! IsNERDTreeOpen()
+"   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+" endfunction
+" " 2. Call NERDTreeFind iff NERDTree is active, current window contains a
+" " modifiable file, and we're not in vimdiff
+" function! SyncTree()
+"   if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+"     NERDTreeFind
+"     wincmd p
+"   endif
+" endfunction
+" " 3. Highlight currently open buffer in NERDTree
+" autocmd BufEnter * call SyncTree()
+
+
+" for syntastic
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_cpp_cpplint_exec = 'cpplint'
+" let g:syntastic_cpp_checkers = ['cpplint', 'gcc']
+" let g:syntastic_cpp_cpplint_thres = 1
+" let g:syntastic_aggregate_errors = 1
+" let g:syntastic_error_symbol = "✗"
+" let g:syntastic_warning_symbol = "⚠"
+" let g:syntastic_style_error_symbol = '!'
+" let g:syntastic_style_warning_symbol = '?'
+" let g:syntastic_loc_list_height = 5
+
+
+" for buffer explore
+" nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
+" nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
+" nnoremap <leader>b :BufExplorer<cr>
+" let g:bufExplorerDefaultHelp=0
+
+
+" disable color_coded in diff mode
+" if &diff
+"   let g:color_coded_enabled = 0
+" endif
+
+
+" for ack.vim, basic manual: O for open and close Quickfix; go open file but
+" return in Quickfix; t for open file in new tab
+" let g:ackprg = 'ag --nogroup --nocolor --column'
+" noremap <c-k> :Ack<space>
+" noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
+
+
+
+"   ____  __  __                              __  _  __     __
+"  / __ \/ /_/ /  ___ _______   ___ ____  ___/ / / |/ /__  / /____ ___
+" / /_/ / __/ _ \/ -_) __(_-<  / _ `/ _ \/ _  / /    / _ \/ __/ -_|_-<
+" \____/\__/_//_/\__/_/ /___/  \_,_/_//_/\_,_/ /_/|_/\___/\__/\__/___/
+"
+
 
