@@ -3,10 +3,13 @@ filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+" Plugin 'haya14busa/incsearch.vim'
 " Plugin 'jeaye/color_coded'
+" Plugin 'mileszs/ack.vim'
 " Plugin 'ryanoasis/vim-devicons'
 " Plugin 'scrooloose/syntastic'
 " Plugin 'sheerun/vim-polyglot'
+" Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'WanGong/vim-mark'
@@ -17,18 +20,15 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'brookhong/cscope.vim'
 Plugin 'ericcurtin/CurtineIncSw.vim'
 Plugin 'godlygeek/tabular'
-Plugin 'haya14busa/incsearch.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lyuts/vim-rtags'
 Plugin 'majutsushi/tagbar'
 Plugin 'maksimr/vim-jsbeautify'
-Plugin 'mileszs/ack.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'vim-scripts/ingo-library' " Dependent by vim-mark
 Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
@@ -37,6 +37,10 @@ call vundle#end()
 
 
 """"""""""""""""""""""""""""""""setting for plugins""""""""""""""""""""""""""""
+
+" for vim-mark
+noremap <F2> :MarkClear<cr>
+
 
 " for clang-format
 noremap <F9> :ClangFormat<cr>
@@ -80,8 +84,8 @@ let g:airline#extensions#ale#show_line_numbers = 0
 
 " for ack.vim, basic manual: O for open and close Quickfix; go open file but
 " return in Quickfix; t for open file in new tab
-let g:ackprg = 'ag --nogroup --nocolor --column'
-noremap <c-k> :Ack<space>
+" let g:ackprg = 'ag --nogroup --nocolor --column'
+" noremap <c-k> :Ack<space>
 "noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
 
 
@@ -90,6 +94,8 @@ noremap <c-k> :Ack<space>
 let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 " Manually invoke
 let g:ycm_key_invoke_completion = '<C-a>'
+let g:ycm_autoclose_preview_window_after_insertion = 1
+noremap <F3> :YcmCompleter GetType<cr>
 
 
 noremap <F5> :call CurtineIncSw()<CR>
@@ -152,9 +158,10 @@ let g:ale_linters = {
 
 
 " for buffer explore
-nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
-nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
-
+" nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
+" nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
+" nnoremap <leader>b :BufExplorer<cr>
+" let g:bufExplorerDefaultHelp=0
 
 " For cpp highlight
 let g:cpp_class_scope_highlight = 1
@@ -190,7 +197,6 @@ let g:tagbar_width = 30
 " Auto highlight tags when edit file
 let g:tagbar_autoshowtag = 1
 let g:tagbar_iconchars = ['▸', '▾']
-"nmap <F3> :TagbarToggle<CR>
 " Auto open NERDTree when vim is opened
 " autocmd VimEnter * nested :TagbarOpen
 " wincmd l
@@ -232,7 +238,6 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 
-set smartcase
 
 set number
 
@@ -265,6 +270,14 @@ autocmd InsertLeave * setlocal nospell
 " autocmd BufRead,BufNewFile *.h setlocal spell
 
 
+" record the last postition, pulled from :help last-position-jump in vim
+:au BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
+
+
+
 nnoremap <leader>l :lclose<CR>
 nnoremap <leader>o :only<CR>
 nnoremap <leader>u :MRU<CR>
@@ -275,7 +288,7 @@ nnoremap <leader>q :q!<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>Q :qall!<CR>
 nnoremap <leader>n :NERDTreeFind<cr>
-nnoremap <leader>b :buffers<CR>:buffer<Space>
+" nnoremap <leader>b :buffers<CR>:buffer<Space>
 
 
 " for line length
@@ -303,6 +316,10 @@ set matchpairs+=<:>
 hi MatchParen cterm=none ctermbg=green ctermfg=blue
 " au FileType c,cpp,java set matchpairs+==:;
 
+set smartcase
+
+" when FileType python, create a mapping to execute the current buffer with python
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 
 """"""""""""""""""""""""""""""""setting for script""""""""""""""""""""""""""""
 
@@ -383,3 +400,4 @@ au BufEnter /* call LoadCscope()
 " use absolute path in cscope.out
 " : set csre
 set nocsre
+
