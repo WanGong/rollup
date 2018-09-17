@@ -20,6 +20,7 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+" Plugin 'ericcurtin/CurtineIncSw.vim'
 " Plugin 'haya14busa/incsearch.vim'
 " Plugin 'jeaye/color_coded'
 " Plugin 'mileszs/ack.vim'
@@ -36,7 +37,6 @@ Plugin 'Yggdroot/LeaderF'
 Plugin 'Yggdroot/indentLine'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'brookhong/cscope.vim'
-Plugin 'ericcurtin/CurtineIncSw.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lyuts/vim-rtags'
@@ -45,9 +45,11 @@ Plugin 'maksimr/vim-jsbeautify'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-python/python-syntax'
+Plugin 'vim-scripts/a.vim'
 Plugin 'vim-scripts/ingo-library' " dependent by vim-mark
 Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
@@ -133,13 +135,12 @@ au BufEnter /* call LoadCscope()
 
 " for mru, MUST avoid to use <c-m>, Ctrl + m = Enter
 let MRU_Max_Entries = 200
-let MRU_Window_Height = 10
+let MRU_Window_Height = 15
 let MRU_Auto_Close = 1
 " let MRU_Use_Current_Window = 1
 
 
 " for ctrlp
-noremap <c-b> :CtrlPBuffer<cr>
 let g:ctrlp_by_filename = 1
 
 
@@ -152,13 +153,19 @@ let g:airline#extensions#tabline#formatter = 'jsformatter'
 let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline#extensions#tabline#fnametruncate = 16
 let g:airline#extensions#tabline#fnamecollapse = 2
+let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#show_tab_type = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#ale#error_symbol = '✗: '
 let g:airline#extensions#ale#warning_symbol = '⚠ : '
 let g:airline#extensions#ale#show_line_numbers = 0
+let g:airline#extensions#hunks#enabled=1
+let g:airline#extensions#branch#enabled=1
+let g:airline_section_z=airline#section#create(['%4l%#__restore__#%#__accent_bold#/%L%']) " show curline/total_line
+let g:airline_skip_empty_sections = 1
 
 
 " to support c++: 1. sudo apt-get install libc++-dev; 2. add '-isystem' '/usr/include/c++/v1/' to .ycm_extra_conf.py
@@ -171,6 +178,7 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:rtagsUseDefaultMappings = 1
 let g:rtagsUseLocationList = 0
 let g:rtagsJumpStackMaxSize = 100
+let g:rtagsAutoLaunchRdm = 1
 
 
 " for ale
@@ -253,7 +261,7 @@ autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1
 
 
 " record the last postition, pulled from :help last-position-jump in vim
-:au BufReadPost *
+autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
@@ -337,7 +345,7 @@ nnoremap <leader>l :lclose<CR>
 nnoremap <leader>n :NERDTreeFind<cr>
 nnoremap <leader>o :only<CR>
 nnoremap <leader>q :q!<CR>
-nnoremap <leader>s :AgSearch<CR> " trigger self-defined AgSearch()
+nnoremap <leader>s :AgSearch<CR>
 nnoremap <leader>t :tabNext<CR>
 nnoremap <leader>u :MRU<CR>
 nnoremap <leader>ve :Vexplore<CR>
@@ -345,12 +353,12 @@ nnoremap <leader>w :w!<CR>
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR> " search the word under cursor
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-defined AutoHighlightToggle()
 nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
-noremap <C-b> :CtrlPBuffer<cr> " for ctrlp
+noremap <C-b> :bNext<cr>
 noremap <C-n> :NERDTreeToggle<CR>
 noremap <F2> :MarkClear<cr> " for vim-mark
 noremap <F3> :YcmCompleter GetType<cr>
 noremap <F4> :set spell!<cr>
-noremap <F5> :call CurtineIncSw()<CR>
+noremap <F5> :A<CR>
 noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F9> :ClangFormat<cr> " for clang-format
@@ -430,6 +438,10 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " let g:asyncrun_open = 8
 
 
+" key mapping
+" noremap <F5> :call CurtineIncSw()<CR>
+" noremap <C-b> :CtrlPBuffer<cr> " for ctrlp
+
 
 
 
@@ -439,4 +451,6 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " \____/\__/_//_/\__/_/ /___/  \_,_/_//_/\_,_/ /_/|_/\___/\__/\__/___/
 "
 
-
+" some resources:
+" https://vimawesome.com/, a awesome vim plugins collection
+"
