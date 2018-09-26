@@ -237,7 +237,7 @@ autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NE
 " 1. git config --local  diff.tool vimdiff
 " 2. git config --local  difftool.prompt false
 " 3. git config --local  alias.d difftool
-" config the following to enable git trust vim exitcode
+" config the following to enable git trust vim exitcode, quit with :cquit
 " 4. git config --local  difftool.trustExitCode true
 " 5. git config --local  mergetool.trustExitCode true
 " usage:
@@ -245,14 +245,13 @@ autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NE
 " 2. :qa for exit current file;
 " 3. :cq for interrupt the vimdiff
 if &diff
-  syntax off
-  highlight DiffAdd    cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffDelete cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffChange cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
-  highlight DiffText   cterm=bold ctermfg=10 gui=none guifg=bg guibg=Red
+  highlight DiffAdd    cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
+  highlight DiffDelete cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
+  highlight DiffChange cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
+  highlight DiffText   cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
 else
-  syntax enable
-"  syntax on "Highlight the code
+  set background=dark
+  colorscheme desert
 endif
 
 
@@ -277,6 +276,9 @@ highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 match ExtraWhitespace /\s\+$/
 
 
+" sudo apt-get install wmctrl, maximize gvim 
+autocmd GUIEnter * call system('wmctrl -i -b add,maximized_vert,maximized_horz -r '.v:windowid)
+
 
 
 "    ___           _       _____          ____
@@ -289,8 +291,8 @@ filetype plugin indent on
 
 let mapleader=";"
 
-set background=dark
-colorscheme desert
+syntax enable
+" syntax on "Highlight the code
 
 set nocsre " use absolute path in cscope.out, set csre
 set expandtab
@@ -454,3 +456,4 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " some resources:
 " https://vimawesome.com/, a awesome vim plugins collection
 "
+
