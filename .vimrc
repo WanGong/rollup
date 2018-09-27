@@ -245,10 +245,10 @@ autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NE
 " 2. :qa for exit current file;
 " 3. :cq for interrupt the vimdiff
 if &diff
-  highlight DiffAdd    cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
-  highlight DiffDelete cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
-  highlight DiffChange cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
-  highlight DiffText   cterm=bold ctermfg=red gui=none guifg=bg guibg=Red
+  highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+  highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+  highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+  highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
 else
   set background=dark
   colorscheme desert
@@ -361,7 +361,7 @@ noremap <F2> :MarkClear<cr> " for vim-mark
 noremap <F3> :YcmCompleter GetType<cr>
 noremap <F4> :set spell!<cr>
 noremap <F5> :A<CR>
-noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .<CR>
+noremap <F6> :!find . -type f -iname *.c -o -iname *.cc -o -iname *.cpp -o -iname *.cxx -o -iname *.h -o -iname *.hpp -o -iname *.proto -exec ctags -R --c++-kinds=+p --fields=+iaS --extras=+q {} + <CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F9> :ClangFormat<cr> " for clang-format
 noremap <F10> "+yy<CR>
