@@ -361,7 +361,7 @@ noremap <F2> :MarkClear<cr> " for vim-mark
 noremap <F3> :YcmCompleter GetType<cr>
 noremap <F4> :set spell!<cr>
 noremap <F5> :A<CR>
-noremap <F6> :!find . -type f -iname *.c -o -iname *.cc -o -iname *.cpp -o -iname *.cxx -o -iname *.h -o -iname *.hpp -o -iname *.proto -exec ctags -R --c++-kinds=+p --fields=+iaS --extras=+q {} + <CR>
+noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C++ . <CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F9> :ClangFormat<cr> " for clang-format
 noremap <F10> "+yy<CR>
