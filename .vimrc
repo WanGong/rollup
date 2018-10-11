@@ -20,15 +20,6 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" Plugin 'ericcurtin/CurtineIncSw.vim'
-" Plugin 'haya14busa/incsearch.vim'
-" Plugin 'jeaye/color_coded'
-" Plugin 'mileszs/ack.vim'
-" Plugin 'ryanoasis/vim-devicons'
-" Plugin 'scrooloose/syntastic'
-" Plugin 'sheerun/vim-polyglot' " a powerful language pack
-" Plugin 'skywind3000/asyncrun.vim'
-" Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'WanGong/vim-mark'
@@ -38,7 +29,6 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'brookhong/cscope.vim'
 Plugin 'godlygeek/tabular'
-Plugin 'kien/ctrlp.vim'
 Plugin 'lyuts/vim-rtags'
 Plugin 'majutsushi/tagbar'
 Plugin 'maksimr/vim-jsbeautify'
@@ -51,7 +41,6 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-python/python-syntax'
 Plugin 'vim-scripts/a.vim'
 Plugin 'vim-scripts/ingo-library' " dependent by vim-mark
-Plugin 'vim-scripts/mru.vim'
 Plugin 'w0rp/ale'
 call vundle#end()
 
@@ -132,16 +121,10 @@ au BufEnter /* call LoadCscope()
 " /_/  /_/\_,_/\_, /_/_//_/  \___/\___/_//_/_//_/\_, /
 "             /___/                             /___/
 "
+"
 
-" for mru, MUST avoid to use <c-m>, Ctrl + m = Enter
-let MRU_Max_Entries = 200
-let MRU_Window_Height = 15
-let MRU_Auto_Close = 1
-" let MRU_Use_Current_Window = 1
-
-
-" for ctrlp
-let g:ctrlp_by_filename = 1
+" for leaderF
+let g:Lf_ShortcutF = '<C-P>'
 
 
 " for airline
@@ -172,6 +155,7 @@ let g:airline_skip_empty_sections = 1
 let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
 let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_server_python_interpreter = '/usr/bin/python' 
 
 
 " config for rtags, https://github.com/lyuts/vim-rtags
@@ -332,7 +316,12 @@ highlight SpellBad cterm=underline,italic
 
 set smartcase
 
-
+" Backup config
+set backup
+set backupdir=~/.vim/backup/ "Where to store backups
+set writebackup "Make backup before overwriting the current buffer
+set backupcopy=yes "Overwrite the original backup file
+au BufWritePre * let &bex = '@' . strftime("%F.%H:%M") "Meaningful backup name, ex: filename@2015-04-05.14:59
 
 
 "    __ __           __  ___               _
@@ -349,7 +338,8 @@ nnoremap <leader>o :only<CR>
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>s :AgSearch<CR>
 nnoremap <leader>t :tabNext<CR>
-nnoremap <leader>u :MRU<CR>
+" nnoremap <leader>u :MRU<CR>
+nnoremap <leader>u :LeaderfMru<CR>
 nnoremap <leader>ve :Vexplore<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR> " search the word under cursor
@@ -379,6 +369,19 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 "  / // / -_) _ \/ __/ -_) __/ _ `/ __/ -_) _  /
 " /____/\__/ .__/_/  \__/\__/\_,_/\__/\__/\_,_/
 "         /_/
+
+" Plugin 'ericcurtin/CurtineIncSw.vim'
+" Plugin 'haya14busa/incsearch.vim'
+" Plugin 'jeaye/color_coded'
+" Plugin 'mileszs/ack.vim'
+" Plugin 'ryanoasis/vim-devicons'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'sheerun/vim-polyglot' " a powerful language pack
+" Plugin 'skywind3000/asyncrun.vim'
+" Plugin 'vim-scripts/bufexplorer.zip'
+" Plugin 'kien/ctrlp.vim'
+" Plugin 'vim-scripts/mru.vim'
+
 
 " " auto expand NERDTree when the file is open
 " " 1. Check if NERDTree is open or active
@@ -443,6 +446,17 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " key mapping
 " noremap <F5> :call CurtineIncSw()<CR>
 " noremap <C-b> :CtrlPBuffer<cr> " for ctrlp
+
+
+" for mru, MUST avoid to use <c-m>, Ctrl + m = Enter
+" let MRU_Max_Entries = 200
+" let MRU_Window_Height = 15
+" let MRU_Auto_Close = 1
+" let MRU_Use_Current_Window = 1
+
+
+" for ctrlp
+" let g:ctrlp_by_filename = 1
 
 
 
