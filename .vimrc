@@ -155,7 +155,7 @@ let g:airline_skip_empty_sections = 1
 let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_server_python_interpreter = '/usr/bin/python' 
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 
 
 " config for rtags, https://github.com/lyuts/vim-rtags
@@ -234,6 +234,7 @@ if &diff
   highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
   highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
 else
+  autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
   set background=dark
   colorscheme desert
 endif
@@ -260,7 +261,7 @@ highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 match ExtraWhitespace /\s\+$/
 
 
-" sudo apt-get install wmctrl, maximize gvim 
+" sudo apt-get install wmctrl, maximize gvim
 autocmd GUIEnter * call system('wmctrl -i -b add,maximized_vert,maximized_horz -r '.v:windowid)
 
 
@@ -470,4 +471,3 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " some resources:
 " https://vimawesome.com/, a awesome vim plugins collection
 "
-
