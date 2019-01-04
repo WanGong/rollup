@@ -125,7 +125,7 @@ au BufEnter /* call LoadCscope()
 
 " for leaderF
 let g:Lf_ShortcutF = '<C-P>'
-
+let g:Lf_UseCache = 0
 
 " for airline
 let g:airline_theme="simple"
@@ -471,3 +471,4 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " some resources:
 " https://vimawesome.com/, a awesome vim plugins collection
 "
+
