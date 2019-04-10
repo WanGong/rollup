@@ -132,6 +132,7 @@ nnoremap mm :MarkClear<CR>
 let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_UseCache = 0
 nnoremap tt :LeaderfTag<CR>
+nnoremap ta :ta<space>
 
 
 " for derekwyatt/vim-fswitch
