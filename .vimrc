@@ -16,33 +16,45 @@
 " |___/\_,_/_//_/\_,_/_/\__/ /_/  /_/\_,_/\_, /_/_//_/___/
 "                                         /___/
 "
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'WanGong/vim-mark'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'Yggdroot/LeaderF'
-Plugin 'Yggdroot/indentLine'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'brookhong/cscope.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'lyuts/vim-rtags'
-Plugin 'majutsushi/tagbar'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'rhysd/vim-clang-format'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-python/python-syntax'
-Plugin 'vim-scripts/a.vim'
-Plugin 'vim-scripts/ingo-library' " dependent by vim-mark
-Plugin 'w0rp/ale'
-call vundle#end()
+"
+" auto download and install plug.vim
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" plugins
+call plug#begin('~/.vim/plugged')
+Plug 'Valloric/YouCompleteMe'
+Plug 'WanGong/vim-mark'  " require vim-scripts/ingo-library
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
+Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
+Plug 'altercation/vim-colors-solarized'
+Plug 'ap/vim-css-color'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'easymotion/vim-easymotion'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/gv.vim'  " require fugitive
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'lyuts/vim-rtags'
+Plug 'majutsushi/tagbar'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'morhetz/gruvbox'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'sbdchd/neoformat'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-python/python-syntax', { 'for': 'python' }
+Plug 'vim-scripts/ingo-library'
+Plug 'w0rp/ale'
+call plug#end()
+
 
 
 
@@ -98,22 +110,6 @@ endfunction
 command! AgSearch call AgSearch()
 
 
-" the following to auto find cscope.out in parent dir
-function! LoadCscope()
-  let db = findfile("cscope.out", ".;")
-  if (!empty(db))
-    let path = strpart(db, 0, match(db, "/cscope.out$"))
-    set nocscopeverbose " suppress 'duplicate connection' error
-    exe "cs add " . db . " " . path
-    set cscopeverbose
-  " Else add the database pointed to by environment variable
-  elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
-  endif
-endfunction
-au BufEnter /* call LoadCscope()
-
-
 
 "    ___  __          _        _____          ____
 "   / _ \/ /_ _____ _(_)__    / ___/__  ___  / _(_)__ _
@@ -123,9 +119,24 @@ au BufEnter /* call LoadCscope()
 "
 "
 
+
+" for 'sbdchd/neoformat'
+nnoremap ff :Neoformat<CR>
+
+
+" for WanGong/vim-mark
+nnoremap mm :MarkClear<CR>
+
+
 " for leaderF
 let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_UseCache = 0
+nnoremap tt :LeaderfTag<CR>
+
+
+" for derekwyatt/vim-fswitch
+nnoremap <C-f> :FSHere<CR>
+
 
 " for airline
 let g:airline_theme="simple"
@@ -151,11 +162,33 @@ let g:airline_section_z=airline#section#create(['%4l%#__restore__#%#__accent_bol
 let g:airline_skip_empty_sections = 1
 
 
+" for 'ludovicchabant/vim-gutentags'
+" project root flag, stop to find in the parent dir
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+" tag file name
+let g:gutentags_ctags_tagfile = 'tags'
+" push the tags into ~/.cache/tags
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+" tags parameter
+let g:gutentags_ctags_extra_args = ['-R', '--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--language-force=C++']
+" crate the dir if needed
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
+
+" for youcompleteme
 " to support c++: 1. sudo apt-get install libc++-dev; 2. add '-isystem' '/usr/include/c++/v1/' to .ycm_extra_conf.py
-let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_server_python_interpreter = '/usr/bin/python'
+" let g:ycm_use_clangd = "Always"
+" let g:ycm_clangd_binary_path = "/home/jack/clang+llvm-7.0.0-x86_64-linux-gnu-ubuntu-16.04/bin/"
 
 
 " config for rtags, https://github.com/lyuts/vim-rtags
@@ -207,6 +240,9 @@ let g:tagbar_iconchars = ['▸', '▾']
 " wincmd l
 autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NERDTree
 
+nnoremap tb :TagbarToggle<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
+
 
 
 "
@@ -241,7 +277,7 @@ endif
 
 
 " when FileType python, create a mapping to execute the current buffer with python
-autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+" autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<CR>
 
 
 " record the last postition, pulled from :help last-position-jump in vim
@@ -279,7 +315,7 @@ let mapleader=";"
 syntax enable
 " syntax on "Highlight the code
 
-set nocsre " use absolute path in cscope.out, set csre
+" set nocsre " use absolute path in cscope.out, set csre
 set expandtab
 set shiftwidth=2
 set softtabstop=2
@@ -334,34 +370,35 @@ au BufWritePre * let &bex = '@' . strftime("%F.%H:%M") "Meaningful backup name, 
 
 nnoremap <leader>e :tabedit<CR>
 nnoremap <leader>l :lclose<CR>
-nnoremap <leader>n :NERDTreeFind<cr>
+nnoremap <leader>n :NERDTreeFind<CR>
 nnoremap <leader>o :only<CR>
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>s :AgSearch<CR>
-nnoremap <leader>t :tabNext<CR>
-" nnoremap <leader>u :MRU<CR>
 nnoremap <leader>u :LeaderfMru<CR>
 nnoremap <leader>ve :Vexplore<CR>
 nnoremap <leader>w :w!<CR>
+inoremap qq <Esc>
+nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR> " search the word under cursor
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-defined AutoHighlightToggle()
-nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
-noremap <C-b> :bNext<cr>
-noremap <C-n> :NERDTreeToggle<CR>
-noremap <F2> :MarkClear<cr> " for vim-mark
-noremap <F3> :YcmCompleter GetType<cr>
-noremap <F4> :set spell!<cr>
-noremap <F5> :A<CR>
-noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C++ . <CR>
-noremap <F8> :TagbarToggle<CR>
-noremap <F9> :ClangFormat<cr> " for clang-format
-noremap <F10> "+yy<CR>
+nnoremap <C-b> :bNext<CR>
 
-
-nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
-  \:!cscope -b -i cscope.files -f cscope.out<CR>
-  \:!rm -rf cscope.files <CR>
-  \:cs reset<CR>
+" nnoremap <leader>t :tabNext<CR>
+" nnoremap <leader>u :MRU<CR>
+" noremap <F2> :MarkClear<CR> " for vim-mark
+" noremap <F3> :YcmCompleter GetType<CR>
+" noremap <F4> :set spell!<CR>
+" noremap <F5> :A<CR>
+" noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C++ . <CR>
+" for system tags:
+" ctags -I __THROW -I __attribute_pure__ -I __nonnull -I __attribute__ --file-scope=yes --langmap=c:+.h --languages=c,c++ --links=yes --c-kinds=+p --c++-kinds=+p --fields=+iaS --extra=+q  -f ~/.vim/systags /usr/include/*  /usr/include/c++/4.8/bits/*  /usr/include/netinet/* /usr/include/arpa/* /usr/include/mysql/*
+" noremap <F8> :TagbarToggle<CR>
+" noremap <F9> :ClangFormat<CR> " for clang-format
+" noremap <F10> "+yy<CR>
+" nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
+"   \:!cscope -b -i cscope.files -f cscope.out<CR>
+"   \:!rm -rf cscope.files <CR>
+"   \:cs reset<CR>
 
 
 
@@ -370,6 +407,42 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 "  / // / -_) _ \/ __/ -_) __/ _ `/ __/ -_) _  /
 " /____/\__/ .__/_/  \__/\__/\_,_/\__/\__/\_,_/
 "         /_/
+
+" vundle config
+"
+" set nocompatible
+" filetype off
+" set rtp+=~/.vim/bundle/Vundle.vim
+" call vundle#begin()
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'VundleVim/Vundle.vim'
+" Plugin 'WanGong/vim-mark'  " require vim-scripts/ingo-library
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'Yggdroot/LeaderF'
+" Plugin 'Yggdroot/indentLine'
+" Plugin 'airblade/vim-gitgutter'
+" Plugin 'altercation/vim-colors-solarized'
+" Plugin 'christoomey/vim-tmux-navigator'
+" Plugin 'derekwyatt/vim-fswitch'
+" Plugin 'easymotion/vim-easymotion'
+" Plugin 'godlygeek/tabular'
+" Plugin 'junegunn/gv.vim'  " require fugitive
+" Plugin 'junegunn/limelight.vim'
+" Plugin 'ludovicchabant/vim-gutentags'
+" Plugin 'lyuts/vim-rtags'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'maksimr/vim-jsbeautify'
+" Plugin 'octol/vim-cpp-enhanced-highlight'
+" Plugin 'sbdchd/neoformat'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'tpope/vim-fugitive'
+" Plugin 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
+" Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'vim-python/python-syntax'
+" Plugin 'vim-scripts/ingo-library'
+" Plugin 'w0rp/ale'
+" call vundle#end()
+
 
 " Plugin 'ericcurtin/CurtineIncSw.vim'
 " Plugin 'haya14busa/incsearch.vim'
@@ -382,6 +455,14 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " Plugin 'vim-scripts/bufexplorer.zip'
 " Plugin 'kien/ctrlp.vim'
 " Plugin 'vim-scripts/mru.vim'
+" Plugin 'Shougo/vimproc.vim'
+" Plugin 'brookhong/cscope.vim'
+" Plugin 'neoclide/coc.nvim'
+" Plugin 'rhysd/vim-clang-format'
+" Plugin 'vim-scripts/a.vim'
+" Plugin 'SirVer/ultisnips'  " require honza/vim-snippets
+" Plugin 'honza/vim-snippets'
+" Plug 'junegunn/limelight.vim'
 
 
 " " auto expand NERDTree when the file is open
@@ -423,7 +504,7 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " for buffer explore
 " nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
 " nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
-" nnoremap <leader>b :BufExplorer<cr>
+" nnoremap <leader>b :BufExplorer<CR>
 " let g:bufExplorerDefaultHelp=0
 
 
@@ -437,7 +518,7 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " return in Quickfix; t for open file in new tab
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 " noremap <c-k> :Ack<space>
-" noremap <Leader>a :Ack <cword><cr> " Search the word under cursor
+" noremap <Leader>a :Ack <cword><CR> " Search the word under cursor
 
 
 " for skywind3000/asyncrun.vim
@@ -446,7 +527,7 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 
 " key mapping
 " noremap <F5> :call CurtineIncSw()<CR>
-" noremap <C-b> :CtrlPBuffer<cr> " for ctrlp
+" noremap <C-b> :CtrlPBuffer<CR> " for ctrlp
 
 
 " for mru, MUST avoid to use <c-m>, Ctrl + m = Enter
@@ -460,6 +541,52 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " let g:ctrlp_by_filename = 1
 
 
+" the following to auto find cscope.out in parent dir
+" function! LoadCscope()
+"   let db = findfile("cscope.out", ".;")
+"   if (!empty(db))
+"     let path = strpart(db, 0, match(db, "/cscope.out$"))
+"     set nocscopeverbose " suppress 'duplicate connection' error
+"     exe "cs add " . db . " " . path
+"     set cscopeverbose
+"   " Else add the database pointed to by environment variable
+"   elseif $CSCOPE_DB != ""
+"     cs add $CSCOPE_DB
+"   endif
+" endfunction
+" au BufEnter /* call LoadCscope()
+
+
+" for SirVer/ultisnips
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" let g:UltiSnipsExpandTrigger="<c-j>"
+" let g:UltiSnipsJumpForwardTrigger="<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" " If you want :UltiSnipsEdit to split your window.
+" let g:UltiSnipsEditSplit="vertical"
+
+
+" for limelight
+" Color name (:help cterm-colors) or ANSI code
+" let g:limelight_conceal_ctermfg = 'gray'
+" let g:limelight_conceal_ctermfg = 240
+" " Color name (:help gui-colors) or RGB color
+" let g:limelight_conceal_guifg = 'DarkGray'
+" let g:limelight_conceal_guifg = '#777777'
+" " Default: 0.5
+" let g:limelight_default_coefficient = 0.7
+" " Number of preceding/following paragraphs to include (default: 0)
+" let g:limelight_paragraph_span = 8
+" " Beginning/end of paragraph
+" "   When there's no empty line between the paragraphs
+" "   and each paragraph starts with indentation
+" let g:limelight_bop = '^\s'
+" let g:limelight_eop = '\ze\n^\s'
+" " Highlighting priority (default: 10)
+" "   Set it to -1 not to overrule hlsearch
+" let g:limelight_priority = -1
+
+
 
 
 "   ____  __  __                              __  _  __     __
@@ -468,7 +595,12 @@ nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname 
 " \____/\__/_//_/\__/_/ /___/  \_,_/_//_/\_,_/ /_/|_/\___/\__/\__/___/
 "
 
-" some resources:
+" Some Resources:
 " https://vimawesome.com/, a awesome vim plugins collection
 "
-
+"
+" Some Note:
+" [1] ctags commands for c++
+" ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C++ .
+" [2] ctags commands for system
+" ctags -I __THROW -I __attribute_pure__ -I __nonnull -I __attribute__ --file-scope=yes --langmap=c:+.h --languages=c,c++ --links=yes --c-kinds=+p --c++-kinds=+p --fields=+iaS --extra=+q  -f ~/.vim/systags /usr/include/*  /usr/include/c++/4.8/bits/*  /usr/include/netinet/* /usr/include/arpa/* /usr/include/mysql/*
