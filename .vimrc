@@ -28,7 +28,7 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'Valloric/YouCompleteMe'
 Plug 'WanGong/vim-mark'  " require vim-scripts/ingo-library
-Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/LeaderF'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -46,11 +46,11 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'sbdchd/neoformat'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-python/python-syntax', { 'for': 'python' }
+Plug 'vim-python/python-syntax'
 Plug 'vim-scripts/ingo-library'
 Plug 'w0rp/ale'
 call plug#end()
