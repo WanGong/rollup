@@ -197,6 +197,7 @@ let g:rtagsUseDefaultMappings = 1
 let g:rtagsUseLocationList = 0
 let g:rtagsJumpStackMaxSize = 100
 let g:rtagsAutoLaunchRdm = 1
+let g:rtagsRdmCmd = "rdm -j 1"
 
 
 " for ale
