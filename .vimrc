@@ -54,6 +54,7 @@ Plug 'vim-python/python-syntax'
 Plug 'vim-scripts/ingo-library'
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 
@@ -132,6 +133,7 @@ nnoremap mm :MarkClear<CR>
 " for leaderF
 let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_UseCache = 0
+let g:Lf_ShowDevIcons = 0
 nnoremap tt :LeaderfTag<CR>
 nnoremap ta :ta<space>
 
@@ -188,7 +190,7 @@ endif
 let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_server_python_interpreter = '/usr/bin/python'
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
 " let g:ycm_use_clangd = "Always"
 " let g:ycm_clangd_binary_path = "/home/jack/clang+llvm-7.0.0-x86_64-linux-gnu-ubuntu-16.04/bin/"
 
