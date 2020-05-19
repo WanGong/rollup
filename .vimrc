@@ -54,7 +54,6 @@ Plug 'vim-python/python-syntax'
 Plug 'vim-scripts/ingo-library'
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 
