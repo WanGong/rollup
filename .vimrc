@@ -364,6 +364,10 @@ set writebackup "Make backup before overwriting the current buffer
 set backupcopy=yes "Overwrite the original backup file
 au BufWritePre * let &bex = '@' . strftime("%F.%H:%M") "Meaningful backup name, ex: filename@2015-04-05.14:59
 
+" Vim terminal                                                                                                                                                                                                                                                                        
+set splitbelow                                                                  
+set termwinsize=12x0                                                            
+
 
 "    __ __           __  ___               _
 "   / //_/__ __ __  /  |/  /__ ____  ___  (_)__  ___ ____
@@ -378,6 +382,7 @@ nnoremap <leader>n :NERDTreeFind<CR>
 nnoremap <leader>o :only<CR>
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>s :AgSearch<CR>
+nnoremap <leader>t :terminal<CR>
 nnoremap <leader>u :LeaderfMru<CR>
 nnoremap <leader>ve :Vexplore<CR>
 nnoremap <leader>w :w!<CR>
