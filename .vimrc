@@ -364,9 +364,9 @@ set writebackup "Make backup before overwriting the current buffer
 set backupcopy=yes "Overwrite the original backup file
 au BufWritePre * let &bex = '@' . strftime("%F.%H:%M") "Meaningful backup name, ex: filename@2015-04-05.14:59
 
-" Vim terminal                                                                                                                                                                                                                                                                        
-set splitbelow                                                                  
-set termwinsize=12x0                                                            
+" Vim terminal
+set splitbelow
+set termwinsize=12x0
 
 
 "    __ __           __  ___               _
