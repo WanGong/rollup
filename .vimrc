@@ -368,6 +368,10 @@ au BufWritePre * let &bex = '@' . strftime("%F.%H:%M") "Meaningful backup name, 
 set splitbelow
 set termwinsize=12x0
 
+" fix crazy wrong code, ref to https://www.reddit.com/r/vim/comments/gv410k/strange_character_since_last_update_42m/fsmfxxv/
+let &t_TI = ""
+let &t_TE = ""
+
 
 "    __ __           __  ___               _
 "   / //_/__ __ __  /  |/  /__ ____  ___  (_)__  ___ ____
