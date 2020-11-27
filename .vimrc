@@ -57,9 +57,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tenfyzhong/CompleteParameter.vim'
 Plug 'luochen1990/rainbow'
-Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdcommenter'
 Plug 'machakann/vim-sandwich'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 call plug#end()
 
 
@@ -185,10 +186,10 @@ let g:gutentags_ctags_tagfile = 'tags'
 let s:vim_tags = expand('~/.cache/tags')
 let g:gutentags_cache_dir = s:vim_tags
 " tags parameter
-let g:gutentags_ctags_extra_args = ['-R', '--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['-R', '--fields=+niazS', '--extras=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--language-force=C++']
+" let g:gutentags_ctags_extra_args += ['--language-force=C++']
 " crate the dir if needed
 if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
@@ -201,8 +202,12 @@ let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/plugged/YouCompleteMe/third_p
 let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
-" let g:ycm_use_clangd = "Always"
+let g:ycm_use_clangd = 1
 " let g:ycm_clangd_binary_path = "/home/jack/clang+llvm-7.0.0-x86_64-linux-gnu-ubuntu-16.04/bin/"
+
+" close ycm
+" let g:ycm_auto_trigger = 0
+" let g:loaded_youcompleteme = 1
 
 
 " config for rtags, https://github.com/lyuts/vim-rtags
@@ -291,6 +296,17 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
+
+" for ultisnips
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger="<c-s>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 
 
