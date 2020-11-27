@@ -333,7 +333,7 @@ if &diff
 else
   autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
   set background=dark
-  colorscheme desert
+  colorscheme gruvbox
 endif
 
 
@@ -429,7 +429,6 @@ set splitbelow
 let &t_TI = ""
 let &t_TE = ""
 
-colorscheme gruvbox
 
 
 "    __ __           __  ___               _
