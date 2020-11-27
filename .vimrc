@@ -54,6 +54,7 @@ Plug 'vim-python/python-syntax'
 Plug 'vim-scripts/ingo-library'
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'tenfyzhong/CompleteParameter.vim'
 call plug#end()
 
 
@@ -246,6 +247,14 @@ autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NE
 
 nnoremap tb :TagbarToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
+
+
+" for CompleteParameter.vim
+inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+smap <c-j> <Plug>(complete_parameter#goto_next_parameter)
+imap <c-j> <Plug>(complete_parameter#goto_next_parameter)
+smap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
+imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
 
 
 
