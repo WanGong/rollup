@@ -17,10 +17,10 @@
 "                                         /___/
 "
 "
-" auto download and install plug.vim
 
-" plugins
-call plug#begin('~/.vim/plugged')
+
+call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
+Plug 'SirVer/ultisnips'
 Plug 'Valloric/YouCompleteMe'
 Plug 'WanGong/vim-mark'  " require vim-scripts/ingo-library
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -33,29 +33,28 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
+Plug 'honza/vim-snippets'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'  " require fugitive
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'luochen1990/rainbow'
 Plug 'lyuts/vim-rtags'
+Plug 'machakann/vim-sandwich'
 Plug 'majutsushi/tagbar'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'preservim/nerdcommenter'
 Plug 'sbdchd/neoformat'
 Plug 'scrooloose/nerdtree'
+Plug 'tenfyzhong/CompleteParameter.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-python/python-syntax'
 Plug 'vim-scripts/ingo-library'
 Plug 'w0rp/ale'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'tenfyzhong/CompleteParameter.vim'
-Plug 'luochen1990/rainbow'
-Plug 'preservim/nerdcommenter'
-Plug 'machakann/vim-sandwich'
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
 call plug#end()
 
 
@@ -430,6 +429,8 @@ set splitbelow
 let &t_TI = ""
 let &t_TE = ""
 
+colorscheme gruvbox
+
 
 "    __ __           __  ___               _
 "   / //_/__ __ __  /  |/  /__ ____  ___  (_)__  ___ ____
@@ -453,225 +454,3 @@ nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR> " search the word under cursor
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-defined AutoHighlightToggle()
 nnoremap <C-b> :bNext<CR>
-
-" nnoremap <leader>t :tabNext<CR>
-" nnoremap <leader>u :MRU<CR>
-" noremap <F2> :MarkClear<CR> " for vim-mark
-" noremap <F3> :YcmCompleter GetType<CR>
-" noremap <F4> :set spell!<CR>
-" noremap <F5> :A<CR>
-" noremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C++ . <CR>
-" for system tags:
-" ctags -I __THROW -I __attribute_pure__ -I __nonnull -I __attribute__ --file-scope=yes --langmap=c:+.h --languages=c,c++ --links=yes --c-kinds=+p --c++-kinds=+p --fields=+iaS --extra=+q  -f ~/.vim/systags /usr/include/*  /usr/include/c++/4.8/bits/*  /usr/include/netinet/* /usr/include/arpa/* /usr/include/mysql/*
-" noremap <F8> :TagbarToggle<CR>
-" noremap <F9> :ClangFormat<CR> " for clang-format
-" noremap <F10> "+yy<CR>
-" nnoremap <F7> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
-"   \:!cscope -b -i cscope.files -f cscope.out<CR>
-"   \:!rm -rf cscope.files <CR>
-"   \:cs reset<CR>
-
-
-
-"    ___                            __         __
-"   / _ \___ ___  _______ _______ _/ /____ ___/ /
-"  / // / -_) _ \/ __/ -_) __/ _ `/ __/ -_) _  /
-" /____/\__/ .__/_/  \__/\__/\_,_/\__/\__/\_,_/
-"         /_/
-
-" vundle config
-"
-" set nocompatible
-" filetype off
-" set rtp+=~/.vim/bundle/Vundle.vim
-" call vundle#begin()
-" Plugin 'Valloric/YouCompleteMe'
-" Plugin 'VundleVim/Vundle.vim'
-" Plugin 'WanGong/vim-mark'  " require vim-scripts/ingo-library
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Plugin 'Yggdroot/LeaderF'
-" Plugin 'Yggdroot/indentLine'
-" Plugin 'airblade/vim-gitgutter'
-" Plugin 'altercation/vim-colors-solarized'
-" Plugin 'christoomey/vim-tmux-navigator'
-" Plugin 'derekwyatt/vim-fswitch'
-" Plugin 'easymotion/vim-easymotion'
-" Plugin 'godlygeek/tabular'
-" Plugin 'junegunn/gv.vim'  " require fugitive
-" Plugin 'junegunn/limelight.vim'
-" Plugin 'ludovicchabant/vim-gutentags'
-" Plugin 'lyuts/vim-rtags'
-" Plugin 'majutsushi/tagbar'
-" Plugin 'maksimr/vim-jsbeautify'
-" Plugin 'octol/vim-cpp-enhanced-highlight'
-" Plugin 'sbdchd/neoformat'
-" Plugin 'scrooloose/nerdtree'
-" Plugin 'tpope/vim-fugitive'
-" Plugin 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
-" Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'vim-python/python-syntax'
-" Plugin 'vim-scripts/ingo-library'
-" Plugin 'w0rp/ale'
-" call vundle#end()
-
-
-" Plugin 'ericcurtin/CurtineIncSw.vim'
-" Plugin 'haya14busa/incsearch.vim'
-" Plugin 'jeaye/color_coded'
-" Plugin 'mileszs/ack.vim'
-" Plugin 'ryanoasis/vim-devicons'
-" Plugin 'scrooloose/syntastic'
-" Plugin 'sheerun/vim-polyglot' " a powerful language pack
-" Plugin 'skywind3000/asyncrun.vim'
-" Plugin 'vim-scripts/bufexplorer.zip'
-" Plugin 'kien/ctrlp.vim'
-" Plugin 'vim-scripts/mru.vim'
-" Plugin 'Shougo/vimproc.vim'
-" Plugin 'brookhong/cscope.vim'
-" Plugin 'neoclide/coc.nvim'
-" Plugin 'rhysd/vim-clang-format'
-" Plugin 'vim-scripts/a.vim'
-" Plugin 'SirVer/ultisnips'  " require honza/vim-snippets
-" Plugin 'honza/vim-snippets'
-" Plug 'junegunn/limelight.vim'
-
-
-" " auto expand NERDTree when the file is open
-" " 1. Check if NERDTree is open or active
-" function! IsNERDTreeOpen()
-"   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-" endfunction
-" " 2. Call NERDTreeFind iff NERDTree is active, current window contains a
-" " modifiable file, and we're not in vimdiff
-" function! SyncTree()
-"   if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-"     NERDTreeFind
-"     wincmd p
-"   endif
-" endfunction
-" " 3. Highlight currently open buffer in NERDTree
-" autocmd BufEnter * call SyncTree()
-
-
-" for syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 1
-" let g:syntastic_cpp_cpplint_exec = 'cpplint'
-" let g:syntastic_cpp_checkers = ['cpplint', 'gcc']
-" let g:syntastic_cpp_cpplint_thres = 1
-" let g:syntastic_aggregate_errors = 1
-" let g:syntastic_error_symbol = "✗"
-" let g:syntastic_warning_symbol = "⚠"
-" let g:syntastic_style_error_symbol = '!'
-" let g:syntastic_style_warning_symbol = '?'
-" let g:syntastic_loc_list_height = 5
-
-
-" for buffer explore
-" nnoremap <leader>bh :BufExplorerHorizontalSplit<CR>
-" nnoremap <leader>bv :BufExplorerVerticalSplit<CR>
-" nnoremap <leader>b :BufExplorer<CR>
-" let g:bufExplorerDefaultHelp=0
-
-
-" disable color_coded in diff mode
-" if &diff
-"   let g:color_coded_enabled = 0
-" endif
-
-
-" for ack.vim, basic manual: O for open and close Quickfix; go open file but
-" return in Quickfix; t for open file in new tab
-" let g:ackprg = 'ag --nogroup --nocolor --column'
-" noremap <c-k> :Ack<space>
-" noremap <Leader>a :Ack <cword><CR> " Search the word under cursor
-
-
-" for skywind3000/asyncrun.vim
-" let g:asyncrun_open = 8
-
-
-" key mapping
-" noremap <F5> :call CurtineIncSw()<CR>
-" noremap <C-b> :CtrlPBuffer<CR> " for ctrlp
-
-
-" for mru, MUST avoid to use <c-m>, Ctrl + m = Enter
-" let MRU_Max_Entries = 200
-" let MRU_Window_Height = 15
-" let MRU_Auto_Close = 1
-" let MRU_Use_Current_Window = 1
-
-
-" for ctrlp
-" let g:ctrlp_by_filename = 1
-
-
-" the following to auto find cscope.out in parent dir
-" function! LoadCscope()
-"   let db = findfile("cscope.out", ".;")
-"   if (!empty(db))
-"     let path = strpart(db, 0, match(db, "/cscope.out$"))
-"     set nocscopeverbose " suppress 'duplicate connection' error
-"     exe "cs add " . db . " " . path
-"     set cscopeverbose
-"   " Else add the database pointed to by environment variable
-"   elseif $CSCOPE_DB != ""
-"     cs add $CSCOPE_DB
-"   endif
-" endfunction
-" au BufEnter /* call LoadCscope()
-
-
-" for SirVer/ultisnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger="<c-j>"
-" let g:UltiSnipsJumpForwardTrigger="<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-" " If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-
-
-" for limelight
-" Color name (:help cterm-colors) or ANSI code
-" let g:limelight_conceal_ctermfg = 'gray'
-" let g:limelight_conceal_ctermfg = 240
-" " Color name (:help gui-colors) or RGB color
-" let g:limelight_conceal_guifg = 'DarkGray'
-" let g:limelight_conceal_guifg = '#777777'
-" " Default: 0.5
-" let g:limelight_default_coefficient = 0.7
-" " Number of preceding/following paragraphs to include (default: 0)
-" let g:limelight_paragraph_span = 8
-" " Beginning/end of paragraph
-" "   When there's no empty line between the paragraphs
-" "   and each paragraph starts with indentation
-" let g:limelight_bop = '^\s'
-" let g:limelight_eop = '\ze\n^\s'
-" " Highlighting priority (default: 10)
-" "   Set it to -1 not to overrule hlsearch
-" let g:limelight_priority = -1
-
-
-
-
-"   ____  __  __                              __  _  __     __
-"  / __ \/ /_/ /  ___ _______   ___ ____  ___/ / / |/ /__  / /____ ___
-" / /_/ / __/ _ \/ -_) __(_-<  / _ `/ _ \/ _  / /    / _ \/ __/ -_|_-<
-" \____/\__/_//_/\__/_/ /___/  \_,_/_//_/\_,_/ /_/|_/\___/\__/\__/___/
-"
-
-" Some Resources:
-" https://vimawesome.com/, a awesome vim plugins collection
-"
-"
-" Some Note:
-" [1] ctags commands for c++
-" ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C++ .
-" [2] ctags commands for system
-" ctags -I __THROW -I __attribute_pure__ -I __nonnull -I __attribute__ --file-scope=yes --langmap=c:+.h --languages=c,c++ --links=yes --c-kinds=+p --c++-kinds=+p --fields=+iaS --extra=+q  -f ~/.vim/systags /usr/include/*  /usr/include/c++/4.8/bits/*  /usr/include/netinet/* /usr/include/arpa/* /usr/include/mysql/*
