@@ -136,6 +136,11 @@ let g:Lf_UseCache = 0
 let g:Lf_ShowDevIcons = 0
 nnoremap tt :LeaderfTag<CR>
 nnoremap ta :ta<space>
+let g:Lf_WildIgnore = {
+      \ 'dir': ['.svn','.git','.hg','.clangd'],
+      \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+      \}
+
 
 
 " for derekwyatt/vim-fswitch
