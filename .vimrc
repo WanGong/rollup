@@ -88,6 +88,8 @@ Plug 'preservim/nerdcommenter'
 
 " markdown
 Plug 'masukomi/vim-markdown-folding', { 'for': 'markdown' }
+Plug 'plasticboy/vim-markdown' " require tabular
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 
 
