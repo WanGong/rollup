@@ -20,41 +20,74 @@
 
 
 call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
+" snipets
+Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
+
+" code complete
 Plug 'Valloric/YouCompleteMe'
+Plug 'tenfyzhong/CompleteParameter.vim'
+
+" color mark
+Plug 'vim-scripts/ingo-library'
 Plug 'WanGong/vim-mark'  " require vim-scripts/ingo-library
+
+" nerdtree
+Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'Yggdroot/LeaderF'
-Plug 'Yggdroot/indentLine'
+
+" git
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'  " require fugitive
 Plug 'airblade/vim-gitgutter'
+
+" color scheme
 Plug 'altercation/vim-colors-solarized'
+Plug 'morhetz/gruvbox'
+
+" auto brackets
+Plug 'jiangmiao/auto-pairs'
+Plug 'machakann/vim-sandwich'
+
+" highlight display
+Plug 'w0rp/ale'
+Plug 'vim-python/python-syntax'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'luochen1990/rainbow'
 Plug 'ap/vim-css-color'
+
+" move
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'easymotion/vim-easymotion'
-Plug 'godlygeek/tabular'
-Plug 'honza/vim-snippets'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/gv.vim'  " require fugitive
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'luochen1990/rainbow'
-Plug 'lyuts/vim-rtags'
-Plug 'machakann/vim-sandwich'
-Plug 'majutsushi/tagbar'
-Plug 'maksimr/vim-jsbeautify'
-Plug 'morhetz/gruvbox'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'preservim/nerdcommenter'
-Plug 'sbdchd/neoformat'
-Plug 'scrooloose/nerdtree'
-Plug 'tenfyzhong/CompleteParameter.vim'
-Plug 'tpope/vim-fugitive'
+Plug 'Yggdroot/LeaderF'
+
+" status line
 Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-python/python-syntax'
-Plug 'vim-scripts/ingo-library'
-Plug 'w0rp/ale'
+
+" code format
+Plug 'sbdchd/neoformat'
+Plug 'maksimr/vim-jsbeautify'
+
+" index
+Plug 'lyuts/vim-rtags'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'majutsushi/tagbar'
+
+" search
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" display
+Plug 'godlygeek/tabular'
+Plug 'Yggdroot/indentLine'
+
+" comment
+Plug 'preservim/nerdcommenter'
+
+" markdown
+Plug 'masukomi/vim-markdown-folding', { 'for': 'markdown' }
 call plug#end()
 
 
