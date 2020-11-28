@@ -180,6 +180,8 @@ let g:Lf_WildIgnore = {
 
 " for derekwyatt/vim-fswitch
 nnoremap <C-f> :FSHere<CR>
+au! BufEnter *.cc let b:fswitchdst = 'hh,h'
+au! BufEnter *.h let b:fswitchdst = 'c,cpp,m,cc'
 
 
 " for airline
