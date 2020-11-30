@@ -162,9 +162,8 @@ nnoremap ff :Neoformat<CR>
 
 
 " for WanGong/vim-mark
-" nnoremap mm :MarkClear<CR>
-nmap <leader>m <Plug>MarkToggle
-nmap mm <Plug>MarkAllClear
+nnoremap mm :MarkClear<CR>
+
 
 " for leaderF
 let g:Lf_ShortcutF = '<C-P>'
