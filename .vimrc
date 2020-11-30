@@ -210,7 +210,7 @@ let g:airline_skip_empty_sections = 1
 
 " for 'ludovicchabant/vim-gutentags'
 " project root flag, stop to find in the parent dir
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', 'package.json']
 " tag file name
 let g:gutentags_ctags_tagfile = 'tags'
 " push the tags into ~/.cache/tags
@@ -226,12 +226,20 @@ if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
 
+let g:gutentags_add_default_project_roots = 0
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+
 " maybe also exclude 'build'
 let g:gutentags_ctags_exclude = [
 \  '*.git', '*.svn', '*.hg',
 \  'cache', 'dist', 'bin', 'node_modules', 'bower_components',
 \  '*-lock.json',  '*.lock',
 \  '*.min.*',
+\  'CMakeLists.txt',
 \  '*.bak',
 \  '*.zip',
 \  '*.pyc',
@@ -242,6 +250,7 @@ let g:gutentags_ctags_exclude = [
 \  '*.cache',
 \  '*.vscode',
 \  '*.pdb',
+\  '*.pb',
 \  '*.exe', '*.dll', '*.bin',
 \  '*.mp3', '*.ogg', '*.flac',
 \  '*.swp', '*.swo',
@@ -258,8 +267,12 @@ let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/plugged/YouCompleteMe/third_p
 let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
+
+let g:ycm_complete_in_comments = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+
 let g:ycm_use_clangd = 1
-" let g:ycm_clangd_binary_path = "/home/jack/clang+llvm-7.0.0-x86_64-linux-gnu-ubuntu-16.04/bin/"
 
 " close ycm
 " let g:ycm_auto_trigger = 0
@@ -326,6 +339,9 @@ smap <c-j> <Plug>(complete_parameter#goto_next_parameter)
 imap <c-j> <Plug>(complete_parameter#goto_next_parameter)
 smap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
 imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
+" to work with auto-pairs
+let g:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+inoremap <buffer><silent> ) <C-R>=AutoPairsInsert(')')<CR>
 
 
 " for luochen1990/rainbow
@@ -364,11 +380,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-
-" for CompleteParameter.vim
-" to work with auto-pairs
-let g:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-inoremap <buffer><silent> ) <C-R>=AutoPairsInsert(')')<CR>
 
 
 
@@ -504,6 +515,7 @@ let &t_TE = ""
 "          /___/             /_/  /_/          /___/
 "
 
+nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>e :tabedit<CR>
 nnoremap <leader>l :lclose<CR>
 nnoremap <leader>n :NERDTreeFind<CR>
