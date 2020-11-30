@@ -22,7 +22,7 @@
 call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
 " snipets
 Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips' " must before CompleteParameter.vim
 
 " code complete
 Plug 'Valloric/YouCompleteMe'
@@ -162,8 +162,9 @@ nnoremap ff :Neoformat<CR>
 
 
 " for WanGong/vim-mark
-nnoremap mm :MarkClear<CR>
-
+" nnoremap mm :MarkClear<CR>
+nmap <leader>m <Plug>MarkToggle
+nmap mm <Plug>MarkAllClear
 
 " for leaderF
 let g:Lf_ShortcutF = '<C-P>'
@@ -225,6 +226,31 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
+
+" maybe also exclude 'build'
+let g:gutentags_ctags_exclude = [
+\  '*.git', '*.svn', '*.hg',
+\  'cache', 'dist', 'bin', 'node_modules', 'bower_components',
+\  '*-lock.json',  '*.lock',
+\  '*.min.*',
+\  '*.bak',
+\  '*.zip',
+\  '*.pyc',
+\  '*.class',
+\  '*.sln',
+\  '*.csproj', '*.csproj.user',
+\  '*.tmp',
+\  '*.cache',
+\  '*.vscode',
+\  '*.pdb',
+\  '*.exe', '*.dll', '*.bin',
+\  '*.mp3', '*.ogg', '*.flac',
+\  '*.swp', '*.swo',
+\  '.DS_Store', '*.plist',
+\  '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png', '*.svg',
+\  '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+\  '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx', '*.xls',
+\]
 
 
 " for youcompleteme
@@ -340,6 +366,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 
+" for CompleteParameter.vim
+" to work with auto-pairs
+let g:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+inoremap <buffer><silent> ) <C-R>=AutoPairsInsert(')')<CR>
 
 
 
