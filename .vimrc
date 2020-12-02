@@ -60,7 +60,7 @@ Plug 'ap/vim-css-color'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'easymotion/vim-easymotion'
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
 " status line
 Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
@@ -166,7 +166,7 @@ nnoremap mm :MarkClear<CR>
 
 
 " for leaderF
-let g:Lf_ShortcutF = '<C-P>
+let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_UseCache = 0
 let g:Lf_ShowDevIcons = 0
 nnoremap tt :LeaderfTag<CR>
