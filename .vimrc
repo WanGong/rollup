@@ -166,7 +166,7 @@ nnoremap mm :MarkClear<CR>
 
 
 " for leaderF
-let g:Lf_ShortcutF = '<C-P>'
+let g:Lf_ShortcutF = '<C-P>
 let g:Lf_UseCache = 0
 let g:Lf_ShowDevIcons = 0
 nnoremap tt :LeaderfTag<CR>
