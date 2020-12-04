@@ -186,9 +186,9 @@ let g:Lf_WildIgnore = {
 
 
 " for derekwyatt/vim-fswitch
-nnoremap <C-f> :FSHere<CR>
-nnoremap <M-l> :FSSplitRight<CR>
-nnoremap <M-h> :FSSplitLeft<CR>
+autocmd FileType c,cpp nnoremap <buffer> <C-f> :FSHere<CR>
+autocmd FileType c,cpp nnoremap <buffer> <M-l> :FSSplitRight<CR>
+autocmd FileType c,cpp nnoremap <buffer> <M-h> :FSSplitLeft<CR>
 au! BufEnter *.cc let b:fswitchdst = 'hh,h'
 au! BufEnter *.h let b:fswitchdst = 'c,cpp,m,cc'
 
