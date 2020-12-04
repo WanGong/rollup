@@ -30,7 +30,7 @@ Plug 'SirVer/ultisnips' " must before CompleteParameter.vim
 
 " code complete
 " Plug 'Valloric/YouCompleteMe'
-" Plug 'tenfyzhong/CompleteParameter.vim'
+Plug 'tenfyzhong/CompleteParameter.vim'
 
 " color mark
 Plug 'vim-scripts/ingo-library'
@@ -219,7 +219,7 @@ let g:airline_skip_empty_sections = 1
 
 " for 'ludovicchabant/vim-gutentags'
 " project root flag, stop to find in the parent dir
-let g:gutentags_enabled = 0
+let g:gutentags_enabled = 1
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', 'package.json']
 " tag file name
 let g:gutentags_ctags_tagfile = 'tags'
