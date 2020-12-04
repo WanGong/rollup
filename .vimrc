@@ -18,6 +18,10 @@
 "
 "
 
+let g:coc_global_extensions = [
+\ 'coc-snippets',
+\ 'coc-clangd'
+\ ]
 
 call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
 " snipets
@@ -25,8 +29,8 @@ Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips' " must before CompleteParameter.vim
 
 " code complete
-Plug 'Valloric/YouCompleteMe'
-Plug 'tenfyzhong/CompleteParameter.vim'
+" Plug 'Valloric/YouCompleteMe'
+" Plug 'tenfyzhong/CompleteParameter.vim'
 
 " color mark
 Plug 'vim-scripts/ingo-library'
@@ -90,6 +94,9 @@ Plug 'preservim/nerdcommenter'
 Plug 'masukomi/vim-markdown-folding', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown' " require tabular
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+" coc
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
 call plug#end()
 
 
@@ -180,6 +187,8 @@ let g:Lf_WildIgnore = {
 
 " for derekwyatt/vim-fswitch
 nnoremap <C-f> :FSHere<CR>
+nnoremap <M-l> :FSSplitRight<CR>
+nnoremap <M-h> :FSSplitLeft<CR>
 au! BufEnter *.cc let b:fswitchdst = 'hh,h'
 au! BufEnter *.h let b:fswitchdst = 'c,cpp,m,cc'
 
@@ -210,6 +219,7 @@ let g:airline_skip_empty_sections = 1
 
 " for 'ludovicchabant/vim-gutentags'
 " project root flag, stop to find in the parent dir
+let g:gutentags_enabled = 0
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', 'package.json']
 " tag file name
 let g:gutentags_ctags_tagfile = 'tags'
@@ -275,8 +285,8 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_use_clangd = 1
 
 " close ycm
-" let g:ycm_auto_trigger = 0
-" let g:loaded_youcompleteme = 1
+let g:ycm_auto_trigger = 0
+let g:loaded_youcompleteme = 1
 
 
 " config for rtags, https://github.com/lyuts/vim-rtags
@@ -381,6 +391,62 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 
+" for coc.nvim
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Recently vim can merge signcolumn and number column into one
+" set signcolumn=yes "default to be auto
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd ColorScheme * highlight CocHighlightText ctermfg=LightMagenta guifg=LightMagenta cterm=bold gui=bold
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+
 
 
 
@@ -448,6 +514,10 @@ autocmd GUIEnter * call system('wmctrl -i -b add,maximized_vert,maximized_horz -
 
 filetype plugin indent on
 
+if has('termguicolors')
+  set termguicolors
+endif
+
 let mapleader=";"
 
 syntax enable
@@ -470,12 +540,13 @@ set tags=tags;/ " the ';' is used to find tags in parent dir
 
 set incsearch
 set hlsearch " highlight search result
-highlight Search ctermbg=LightYellow ctermfg=Red cterm=bold,italic
+highlight Search ctermbg=LightYellow ctermfg=Red cterm=bold,italic guibg=LightYellow guifg=Red gui=bold,italic
 
 set cursorline
 set backspace=indent,eol,start
 set matchpairs+=<:>
-highlight MatchParen cterm=none ctermbg=green ctermfg=blue
+highlight MatchParen ctermbg=green ctermfg=blue guibg=green guifg=blue
+
 " au FileType c,cpp,java set matchpairs+==:;
 
 " code fold, za: on/off current fold, zM: off all folds, zR: on all folds
@@ -484,10 +555,9 @@ set foldmethod=syntax
 set nofoldenable " on/off
 
 set colorcolumn=80 " for line length
-highlight ColorColumn ctermbg=8
-
+highlight ColorColumn ctermbg=DarkGray guibg=LightGray
 highlight clear SpellBad
-highlight SpellBad cterm=underline,italic
+highlight SpellBad cterm=underline,italic gui=underline,italic
 
 set smartcase
 
@@ -531,3 +601,6 @@ nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR> " search the word under cursor
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-defined AutoHighlightToggle()
 nnoremap <C-b> :bNext<CR>
+
+nnoremap <C-w>S :sp<CR>
+nnoremap <C-w>V :vs<CR>
