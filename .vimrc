@@ -175,7 +175,7 @@ nnoremap ff :Neoformat<CR>
 let g:floaterm_keymap_new    = '<C-t>n'
 let g:floaterm_keymap_prev   = '<C-t>k'
 let g:floaterm_keymap_next   = '<C-t>j'
-let g:floaterm_keymap_toggle = '<C-t>t'
+let g:floaterm_keymap_toggle = '<leader>t'
 
 
 " for 'airblade/vim-gitgutter'
@@ -607,7 +607,7 @@ nnoremap <leader>n :NERDTreeFind<CR>
 nnoremap <leader>o :only<CR>
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>s :AgSearch<CR>
-nnoremap <leader>t :terminal<CR>
+" nnoremap <leader>t :terminal<CR>
 nnoremap <leader>u :LeaderfMru<CR>
 nnoremap <leader>ve :Vexplore<CR>
 nnoremap <leader>w :w!<CR>
