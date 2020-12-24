@@ -609,6 +609,7 @@ nnoremap <leader>q :q!<CR>
 nnoremap <leader>s :AgSearch<CR>
 " nnoremap <leader>t :terminal<CR>
 nnoremap <leader>u :LeaderfMru<CR>
+nnoremap <leader>a :LeaderfBufTag<CR>
 nnoremap <leader>ve :Vexplore<CR>
 nnoremap <leader>w :w!<CR>
 inoremap qq <Esc>
