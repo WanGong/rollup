@@ -97,6 +97,9 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 
 " coc
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
+
+" terminal
+Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 
@@ -166,6 +169,18 @@ command! AgSearch call AgSearch()
 
 " for 'sbdchd/neoformat'
 nnoremap ff :Neoformat<CR>
+
+
+" for 'voldikss/vim-floaterm'
+let g:floaterm_keymap_new    = '<C-t>n'
+let g:floaterm_keymap_prev   = '<C-t>k'
+let g:floaterm_keymap_next   = '<C-t>j'
+let g:floaterm_keymap_toggle = '<C-t>t'
+
+
+" for 'airblade/vim-gitgutter'
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
 
 
 " for WanGong/vim-mark
