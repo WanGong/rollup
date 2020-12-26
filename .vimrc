@@ -20,7 +20,9 @@
 
 let g:coc_global_extensions = [
 \ 'coc-snippets',
-\ 'coc-clangd'
+\ 'coc-clangd',
+\ 'coc-tabnine',
+\ 'coc-pyright'
 \ ]
 
 call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
