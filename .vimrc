@@ -555,7 +555,7 @@ autocmd GUIEnter * call system('wmctrl -i -b add,maximized_vert,maximized_horz -
 "          /___/             /_/  /_/          /___/
 "
 
-nnoremap <leader>o :only<CR
+nnoremap <leader>o :only<CR>
 nnoremap <leader>e :tabedit<CR>
 
 nnoremap <leader>w :w!<CR>
