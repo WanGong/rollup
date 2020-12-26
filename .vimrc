@@ -26,11 +26,6 @@ let g:coc_global_extensions = [
 call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
 " snipets
 Plug 'honza/vim-snippets'
-" Plug 'SirVer/ultisnips' " must before CompleteParameter.vim
-
-" code complete
-" Plug 'Valloric/YouCompleteMe'
-" Plug 'tenfyzhong/CompleteParameter.vim'
 
 " color mark
 Plug 'vim-scripts/ingo-library'
@@ -64,7 +59,7 @@ Plug 'ap/vim-css-color'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'easymotion/vim-easymotion'
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' } " (1) pip3 install pygments (2) install gnu global
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
 " status line
 Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
@@ -75,7 +70,6 @@ Plug 'sbdchd/neoformat'
 Plug 'maksimr/vim-jsbeautify'
 
 " index
-" Plug 'lyuts/vim-rtags'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 
@@ -146,8 +140,6 @@ set backspace=indent,eol,start
 set matchpairs+=<:>
 highlight MatchParen ctermbg=green ctermfg=blue guibg=green guifg=blue
 
-" au FileType c,cpp,java set matchpairs+==:;
-
 " code fold, za: on/off current fold, zM: off all folds, zR: on all folds
 " set foldmethod=indent
 set foldmethod=syntax
@@ -169,7 +161,6 @@ au BufWritePre * let &bex = '@' . strftime("%F.%H:%M") "Meaningful backup name, 
 
 " Vim terminal
 set splitbelow
-" set termwinsize=12x0
 
 " fix crazy wrong code, ref to https://www.reddit.com/r/vim/comments/gv410k/strange_character_since_last_update_42m/fsmfxxv/
 let &t_TI = ""
@@ -272,23 +263,12 @@ let g:Lf_WildIgnore = {
       \}
 let g:Lf_CommandMap = {'<C-up>': ['<C-b>'], '<C-down>': ['<C-f>']}
 let g:Lf_PreviewResult = { 'Tag': 1, 'BufTag': 1, 'Function': 1 }
-
 noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>ff :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
 noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>fg :<C-U><C-R>=printf("Leaderf tag %s", "")<CR><CR>
 noremap <leader>u  :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-
-" should use `Leaderf gtags --update` first
-" let g:Lf_GtagsAutoGenerate = 1
-" let g:Lf_Gtagslabel = 'native-pygments'
-" noremap <leader>fu :<C-U><C-R>=printf("Leaderf gtags --update")<CR><CR>
-" noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
-" noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
-" noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
-" noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
-" noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 
 " for derekwyatt/vim-fswitch
@@ -378,33 +358,6 @@ let g:gutentags_ctags_exclude = [
 \]
 
 
-" for youcompleteme
-" to support c++: 1. sudo apt-get install libc++-dev; 2. add '-isystem' '/usr/include/c++/v1/' to .ycm_extra_conf.py
-" let g:ycm_global_ycm_extra_conf = '/home/jack/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
-" let g:ycm_key_invoke_completion = '<C-a>' " Manually invoke
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_server_python_interpreter = '/usr/bin/python3'
-"
-" let g:ycm_complete_in_comments = 1
-" let g:ycm_seed_identifiers_with_syntax = 1
-" let g:ycm_collect_identifiers_from_comments_and_strings = 1
-"
-" let g:ycm_use_clangd = 1
-" nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-" close ycm
-" let g:ycm_auto_trigger = 0
-" let g:loaded_youcompleteme = 1
-
-
-" config for rtags, https://github.com/lyuts/vim-rtags
-" let g:rtagsUseDefaultMappings = 1
-" let g:rtagsUseLocationList = 0
-" let g:rtagsJumpStackMaxSize = 100
-" let g:rtagsAutoLaunchRdm = 1
-" let g:rtagsRdmCmd = "rdm -j 1"
-
-
 " for ale
 let g:ale_set_highlights = 0
 let g:ale_lint_on_text_changed = 'never'
@@ -452,17 +405,6 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFind<CR>
 
 
-" for CompleteParameter.vim
-" inoremap <silent><expr> ( complete_parameter#pre_complete("()")
-" smap <c-j> <Plug>(complete_parameter#goto_next_parameter)
-" imap <c-j> <Plug>(complete_parameter#goto_next_parameter)
-" smap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
-" imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
-" " to work with auto-pairs
-" let g:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-" inoremap <buffer><silent> ) <C-R>=AutoPairsInsert(')')<CR>
-
-
 " for luochen1990/rainbow
 let g:rainbow_active = 1
 
@@ -486,18 +428,6 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
-
-
-" for ultisnips
-" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
-" - https://github.com/Valloric/YouCompleteMe
-" - https://github.com/nvim-lua/completion-nvim
-" let g:UltiSnipsExpandTrigger="<c-s>"
-" let g:UltiSnipsJumpForwardTrigger="<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-" If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
 
 
 " for coc.nvim
