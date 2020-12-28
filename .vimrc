@@ -244,6 +244,10 @@ let g:floaterm_keymap_next   = '<leader>tp'
 let g:floaterm_keymap_toggle = 'tt'
 let g:floaterm_title         = '$1/$2'
 
+tnoremap <leader>e <c-\><c-n>:FloatermNew<cr>                                       
+tnoremap <leader>q <c-\><c-n>:FloatermKill<cr>                                      
+tnoremap gt <c-\><c-n>:FloatermNext<cr>                                             
+                                                                                    
 
 " for 'airblade/vim-gitgutter'
 nmap ]h <Plug>(GitGutterNextHunk)
