@@ -96,6 +96,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
 
 " terminal
 Plug 'voldikss/vim-floaterm'
+
+Plug 'psliwka/vim-smoothie'
 call plug#end()
 
 
@@ -178,13 +180,6 @@ let &t_TE = ""
 "                             /_/
 "
 
-" use ag replace grep, the Silver Searcher
-if executable('ag')
-  " use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
-
-
 " highlight all instances of word under cursor, Type z/ to toggle highlighting on/off.
 function! AutoHighlightToggle()
   let @/ = ''
@@ -208,20 +203,6 @@ endfunction
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-defined AutoHighlightToggle()
 
 
-" self defined command for ag search
-function! AgSearch()
-  let grep_term = input("/")
-  if !empty(grep_term)
-    execute 'silent grep' grep_term | copen
-  else
-    echo "Empty search term"
-  endif
-  redraw!
-endfunction
-command! AgSearch call AgSearch()
-
-nnoremap <leader>s :AgSearch<CR>
-
 
 "    ___  __          _        _____          ____
 "   / _ \/ /_ _____ _(_)__    / ___/__  ___  / _(_)__ _
@@ -244,10 +225,10 @@ let g:floaterm_keymap_next   = '<leader>tp'
 let g:floaterm_keymap_toggle = 'tt'
 let g:floaterm_title         = '$1/$2'
 
-tnoremap <leader>e <c-\><c-n>:FloatermNew<cr>                                       
-tnoremap <leader>q <c-\><c-n>:FloatermKill<cr>                                      
-tnoremap gt <c-\><c-n>:FloatermNext<cr>                                             
-                                                                                    
+tnoremap <leader>e <c-\><c-n>:FloatermNew<cr>
+tnoremap <leader>q <c-\><c-n>:FloatermKill<cr>
+tnoremap gt <c-\><c-n>:FloatermNext<cr>
+
 
 " for 'airblade/vim-gitgutter'
 nmap ]h <Plug>(GitGutterNextHunk)
@@ -275,6 +256,17 @@ noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>fg :<C-U><C-R>=printf("Leaderf tag %s", "")<CR><CR>
 noremap <leader>u  :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+
+let g:Lf_RgConfig = [
+        \ "--max-columns=150",
+        \ "--type-add web:*.{html,css,js}*",
+        \ "--glob=!git/*",
+        \ "--hidden"
+    \ ]
+" search word under cursor, the pattern is treated as regex, and enter normal mode directly
+noremap K :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
+" search input word
+noremap <leader>s :<C-U><C-R>=printf("Leaderf! rg -e ")<CR>
 
 
 " for derekwyatt/vim-fswitch
@@ -569,4 +561,3 @@ nnoremap <C-w>s :sp<CR>
 nnoremap <C-w>v :vs<CR>
 
 nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR> " search the word under cursor
