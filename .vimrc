@@ -259,7 +259,6 @@ noremap <leader>u  :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 
 let g:Lf_RgConfig = [
         \ "--max-columns=150",
-        \ "--type-add web:*.{html,css,js}*",
         \ "--glob=!git/*",
         \ "--hidden"
     \ ]
