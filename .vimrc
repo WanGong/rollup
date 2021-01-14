@@ -400,10 +400,17 @@ autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NE
 nnoremap tb :TagbarToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFind<CR>
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 
 
 " for luochen1990/rainbow
 let g:rainbow_active = 1
+let g:rainbow_conf = {
+\	'separately': {
+\		'nerdtree': 0,
+\	}
+\}
 
 
 " for preservim/nerdcommenter
