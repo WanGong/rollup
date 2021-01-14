@@ -283,7 +283,7 @@ au! BufEnter *.h let b:fswitchdst = 'c,cpp,m,cc'
 
 
 " for airline
-let g:airline_theme="simple"
+let g:airline_theme="deus"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 let g:airline#extensions#tabline#show_tab_nr = 1
@@ -296,7 +296,7 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#show_tab_type = 1
-let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#enabled = 0
 let g:airline#extensions#ale#error_symbol = '✗: '
 let g:airline#extensions#ale#warning_symbol = '⚠ : '
 let g:airline#extensions#ale#show_line_numbers = 0
@@ -304,6 +304,30 @@ let g:airline#extensions#hunks#enabled=1
 let g:airline#extensions#branch#enabled=1
 let g:airline_section_z=airline#section#create(['%4l%#__restore__#%#__accent_bold#/%L%']) " show curline/total_line
 let g:airline_skip_empty_sections = 1
+let g:airline_mode_map = {
+    \ '__'     : '-',
+    \ 'c'      : 'C',
+    \ 'i'      : 'I',
+    \ 'ic'     : 'I',
+    \ 'ix'     : 'I',
+    \ 'n'      : 'N',
+    \ 'multi'  : 'M',
+    \ 'ni'     : 'N',
+    \ 'no'     : 'N',
+    \ 'R'      : 'R',
+    \ 'Rv'     : 'R',
+    \ 's'      : 'S',
+    \ 'S'      : 'S',
+    \ ''     : 'S',
+    \ 't'      : 'T',
+    \ 'v'      : 'V',
+    \ 'V'      : 'V',
+    \ ''     : 'V',
+    \ }
+let g:airline_stl_path_style = 'short'
+let g:airline_section_c = '%t'
+let g:airline_section_error = ''
+let g:airline_section_warning = ''
 
 
 " for 'ludovicchabant/vim-gutentags'
