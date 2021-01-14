@@ -304,26 +304,6 @@ let g:airline#extensions#hunks#enabled=1
 let g:airline#extensions#branch#enabled=1
 let g:airline_section_z=airline#section#create(['%4l%#__restore__#%#__accent_bold#/%L%']) " show curline/total_line
 let g:airline_skip_empty_sections = 1
-let g:airline_mode_map = {
-    \ '__'     : '-',
-    \ 'c'      : 'C',
-    \ 'i'      : 'I',
-    \ 'ic'     : 'I',
-    \ 'ix'     : 'I',
-    \ 'n'      : 'N',
-    \ 'multi'  : 'M',
-    \ 'ni'     : 'N',
-    \ 'no'     : 'N',
-    \ 'R'      : 'R',
-    \ 'Rv'     : 'R',
-    \ 's'      : 'S',
-    \ 'S'      : 'S',
-    \ ''     : 'S',
-    \ 't'      : 'T',
-    \ 'v'      : 'V',
-    \ 'V'      : 'V',
-    \ ''     : 'V',
-    \ }
 let g:airline_stl_path_style = 'short'
 let g:airline_section_c = '%t'
 let g:airline_section_error = ''
