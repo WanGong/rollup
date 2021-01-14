@@ -247,7 +247,7 @@ nnoremap mm :MarkClear<CR>
 " for leaderF
 let g:Lf_ShortcutF = '<C-p>'
 let g:Lf_UseCache = 0
-let g:Lf_ShowDevIcons = 0
+let g:Lf_ShowDevIcons = 1
 let g:Lf_PreviewInPopup = 1
 let g:Lf_WildIgnore = {
       \ 'dir': ['.svn','.git','.hg','.clangd'],
