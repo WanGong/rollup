@@ -36,6 +36,7 @@ Plug 'WanGong/vim-mark'  " require vim-scripts/ingo-library
 " nerdtree
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -97,7 +98,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
 " terminal
 Plug 'voldikss/vim-floaterm'
 
+" for scroll
 Plug 'psliwka/vim-smoothie'
+
+" for icon
+Plug 'ryanoasis/vim-devicons' " (1) must be last; (2) install nerd font; (3) set terminal font
 call plug#end()
 
 
