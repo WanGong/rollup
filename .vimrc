@@ -260,6 +260,7 @@ noremap <leader>ff :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
 noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>fg :<C-U><C-R>=printf("Leaderf tag %s", "")<CR><CR>
+noremap <leader>fc :<C-U><C-R>=printf("Leaderf colorscheme %s", "")<CR><CR>
 noremap <leader>u  :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 
 let g:Lf_RgConfig = [
