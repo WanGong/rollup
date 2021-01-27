@@ -67,6 +67,7 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " status line
 Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
 Plug 'vim-airline/vim-airline-themes'
+Plug 'enricobacis/vim-airline-clock'
 
 " code format
 Plug 'sbdchd/neoformat'
@@ -308,6 +309,14 @@ let g:airline_stl_path_style = 'short'
 let g:airline_section_c = '%t'
 let g:airline_section_error = ''
 let g:airline_section_warning = ''
+
+" for airline-clock
+let g:airline#extensions#clock#format = '%H:%M'
+let g:airline#extensions#clock#auto = 0
+function! AirlineInit()
+  let g:airline_section_a = airline#section#create(['clock', g:airline_symbols.space, g:airline_section_a])
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
 
 
 " for 'ludovicchabant/vim-gutentags'
