@@ -80,6 +80,7 @@ Plug 'majutsushi/tagbar'
 " search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'dyng/ctrlsf.vim'
 
 " display
 Plug 'godlygeek/tabular'
@@ -114,6 +115,11 @@ call plug#end()
 "  / _  / _ `(_-</ / __/ / /__/ _ \/ _ \/ _/ / _ `/
 " /____/\_,_/___/_/\__/  \___/\___/_//_/_//_/\_, /
 "                                           /___/
+
+" use ag replace grep, the Silver Searcher
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
 
 filetype plugin indent on
 
@@ -264,15 +270,26 @@ noremap <leader>fg :<C-U><C-R>=printf("Leaderf tag %s", "")<CR><CR>
 noremap <leader>fc :<C-U><C-R>=printf("Leaderf colorscheme %s", "")<CR><CR>
 noremap <leader>u  :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 
-let g:Lf_RgConfig = [
-        \ "--max-columns=150",
-        \ "--glob=!git/*",
-        \ "--hidden"
-    \ ]
-" search word under cursor, the pattern is treated as regex, and enter normal mode directly
-noremap K :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
-" search input word
-noremap <leader>s :<C-U><C-R>=printf("Leaderf! rg -e ")<CR>
+
+" for 'dyng/ctrlsf.vim'
+let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_preview_position = 'outside'
+let g:ctrlsf_populate_qflist = 1
+let g:ctrlsf_default_view_mode = 'compact'
+let g:ctrlsf_winsize = '50%'
+let g:ctrlsf_compact_winsize = '30%'
+let g:ctrlsf_auto_close = {
+    \ "normal" : 0,
+    \ "compact": 0
+    \}
+let g:ctrlsf_auto_focus = { "at": "start" }
+let g:ctrlsf_default_root = 'project'
+let g:ctrlsf_backend = 'ag'
+let g:ctrlsf_mapping = { "popen": "<C-P>" }
+
+nnoremap cc :CtrlSFToggle<CR>
+nmap <leader>s <Plug>CtrlSFPrompt
+nmap K <Plug>CtrlSFCwordPath<CR>
 
 
 " for derekwyatt/vim-fswitch
