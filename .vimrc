@@ -603,3 +603,6 @@ nnoremap <C-w>s :sp<CR>
 nnoremap <C-w>v :vs<CR>
 
 nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
+
+" TODO: remove this when ctrlsf support customized highlight group
+hi ctrlsfSelectedLine guifg=#008787 guibg=NONE guisp=NONE gui=bold ctermfg=30 ctermbg=NONE cterm=bold
