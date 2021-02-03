@@ -18,6 +18,7 @@
 "
 "
 
+" The plugins for the coc.nvim
 let g:coc_global_extensions = [
 \ 'coc-snippets',
 \ 'coc-clangd',
@@ -26,84 +27,88 @@ let g:coc_global_extensions = [
 \ ]
 
 call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
-" snipets
+" Snipets
 Plug 'honza/vim-snippets'
 
-" color mark
+" Color mark
 Plug 'vim-scripts/ingo-library'
 Plug 'WanGong/vim-mark'  " require vim-scripts/ingo-library
 
-" nerdtree
+" Nerdtree
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-" git
+" Git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'  " require fugitive
 Plug 'airblade/vim-gitgutter'
 
-" color scheme
+" Color scheme
 Plug 'altercation/vim-colors-solarized'
 Plug 'morhetz/gruvbox'
 
-" auto brackets
+" Auto brackets
 Plug 'jiangmiao/auto-pairs'
 Plug 'machakann/vim-sandwich'
 
-" highlight display
+" Highlight display
 Plug 'w0rp/ale'
 Plug 'vim-python/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'luochen1990/rainbow'
 Plug 'ap/vim-css-color'
 
-" move
+" Move
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'easymotion/vim-easymotion'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
-" status line
+" Status line
 Plug 'vim-airline/vim-airline'  " require vim-airline/vim-airline-themes
 Plug 'vim-airline/vim-airline-themes'
 Plug 'enricobacis/vim-airline-clock'
 
-" code format
+" Code format
 Plug 'sbdchd/neoformat'
 Plug 'maksimr/vim-jsbeautify'
 
-" index
+" Index
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 
-" search
+" Search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'dyng/ctrlsf.vim'
 
-" display
+" Display
 Plug 'godlygeek/tabular'
 Plug 'Yggdroot/indentLine'
 
-" comment
+" Comment
 Plug 'preservim/nerdcommenter'
 
-" markdown
+" Markdown
 Plug 'masukomi/vim-markdown-folding', { 'for': 'markdown' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
-" coc
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
+" Coc
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }} " need nodejs and python support
 
-" terminal
+" Terminal
 Plug 'voldikss/vim-floaterm'
 
-" for scroll
+" Scroll
 Plug 'psliwka/vim-smoothie'
 
-" for icon
-Plug 'ryanoasis/vim-devicons' " (1) must be last; (2) install nerd font; (3) set terminal font
+" Icon
+" The requirements for vim-devicons:
+" (1) must be last one;
+" (2) install nerd font(https://github.com/ryanoasis/nerd-fonts);
+" (3) set terminal font
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 
@@ -115,7 +120,8 @@ call plug#end()
 " /____/\_,_/___/_/\__/  \___/\___/_//_/_//_/\_, /
 "                                           /___/
 
-" use ag replace grep, the Silver Searcher
+" Use ag replace grep, please install the ag refer to:
+" https://github.com/ggreer/the_silver_searcher
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
@@ -126,28 +132,26 @@ if has('termguicolors')
   set termguicolors
 endif
 
-let mapleader=";"
+let mapleader=';'
 
 syntax enable
-" syntax on "Highlight the code
 
-" set nocsre " use absolute path in cscope.out, set csre
 set expandtab
 set shiftwidth=2
 set softtabstop=2
 
 set number
-set history=1000 " history command number
+set history=1000 " History command number
 
 set autoindent
 set cindent
 
 set encoding=utf-8
 set clipboard=unnamed
-set tags=tags;/ " the ';' is used to find tags in parent dir
+set tags=tags;/ " The ';' is used to find tags in parent dir
 
 set incsearch
-set hlsearch " highlight search result
+set hlsearch " Highlight search result
 highlight Search ctermbg=LightYellow ctermfg=Red cterm=bold,italic guibg=LightYellow guifg=Red gui=bold,italic
 
 set cursorline
@@ -155,12 +159,11 @@ set backspace=indent,eol,start
 set matchpairs+=<:>
 highlight MatchParen ctermbg=green ctermfg=blue guibg=green guifg=blue
 
-" code fold, za: on/off current fold, zM: off all folds, zR: on all folds
-" set foldmethod=indent
+" Code fold setting: za: on/off current fold, zM: off all folds, zR: on all folds
 set foldmethod=syntax
 set nofoldenable " on/off
 
-set colorcolumn=80 " for line length
+set colorcolumn=80 " The code width line
 highlight ColorColumn ctermbg=DarkGray guibg=LightGray
 highlight clear SpellBad
 highlight SpellBad cterm=underline,italic gui=underline,italic
@@ -169,18 +172,19 @@ set smartcase
 
 " Backup config
 set backup
-set backupdir=~/.vim/backup/ "Where to store backups
-set writebackup "Make backup before overwriting the current buffer
-set backupcopy=yes "Overwrite the original backup file
-au BufWritePre * let &bex = '@' . strftime("%F.%H:%M") "Meaningful backup name, ex: filename@2015-04-05.14:59
+set backupdir=~/.vim/backup/
+set writebackup " Make backup before overwriting the current buffer
+set backupcopy=yes " Overwrite the original backup file
+" The backup file name, e.g. filename@2015-04-05.14:59
+au BufWritePre * let &bex = '@' . strftime("%F.%H:%M")
 
 " Vim terminal
 set splitbelow
 
-" fix crazy wrong code, ref to https://www.reddit.com/r/vim/comments/gv410k/strange_character_since_last_update_42m/fsmfxxv/
+" Fix crazy wrong code, ref to:
+" https://www.reddit.com/r/vim/comments/gv410k/strange_character_since_last_update_42m/fsmfxxv/
 let &t_TI = ""
 let &t_TE = ""
-
 
 
 
@@ -191,7 +195,8 @@ let &t_TE = ""
 "                             /_/
 "
 
-" highlight all instances of word under cursor, Type z/ to toggle highlighting on/off.
+" Highlight all instances of word under cursor
+" Type z/ to toggle highlighting on/off.
 function! AutoHighlightToggle()
   let @/ = ''
   if exists('#auto_highlight')
@@ -211,7 +216,7 @@ function! AutoHighlightToggle()
   endif
 endfunction
 
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-defined AutoHighlightToggle()
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 
 
 
@@ -223,12 +228,14 @@ nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR> " trigger self-d
 "
 "
 
-
-" for 'sbdchd/neoformat'
+" For 'sbdchd/neoformat'
+" The neoformat is used to format code, you should also install some
+" independent code formator(e.g., clang-format, pyling, etc.) in the system
 nnoremap ff :Neoformat<CR>
 
 
-" for 'voldikss/vim-floaterm'
+" For 'voldikss/vim-floaterm'
+" Usage: (1) toggle floaterm: tt;
 let g:floaterm_keymap_new    = '<leader>tt'
 let g:floaterm_keymap_kill   = '<leader>tk'
 let g:floaterm_keymap_prev   = '<leader>tn'
@@ -241,16 +248,25 @@ tnoremap <leader>q <c-\><c-n>:FloatermKill<cr>
 tnoremap gt <c-\><c-n>:FloatermNext<cr>
 
 
-" for 'airblade/vim-gitgutter'
+" For 'airblade/vim-gitgutter'
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
 
-" for WanGong/vim-mark
+" For WanGong/vim-mark
+" Usage:
+" (1) mark current world: <leader>m;
+" (2) undo mark current world: <leader>m;
+" (3) cancel all: mm
 nnoremap mm :MarkClear<CR>
 
 
-" for leaderF
+" For leaderF
+" The Leaderf is quite powerful, which is a fully replace for the original CtrlP
+" Usage:
+" (1) search file: Ctrl-p;
+" (2) search recent opened file: Ctrl-u;
+" (3) search tag in current buffer: <leader>ft
 let g:Lf_ShortcutF = '<C-p>'
 let g:Lf_UseCache = 0
 let g:Lf_ShowDevIcons = 1
@@ -270,7 +286,14 @@ noremap <leader>fc :<C-U><C-R>=printf("Leaderf colorscheme %s", "")<CR><CR>
 noremap <leader>u  :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 
 
-" for 'dyng/ctrlsf.vim'
+" For 'dyng/ctrlsf.vim'
+" ctrlsf is the ultimate global search tool.
+" Usage:
+" (1) search current word: K;
+" (2) switch display style: M(in result window);
+" (3) preview current result: Ctrl-p(in result window)
+" (4) custom search: <leader>s;
+" (5) toggle search reslt: cc
 let g:ctrlsf_search_mode = 'async'
 let g:ctrlsf_preview_position = 'outside'
 let g:ctrlsf_populate_qflist = 1
@@ -291,7 +314,8 @@ nmap <leader>s <Plug>CtrlSFPrompt
 nmap K <Plug>CtrlSFCwordPath<CR>
 
 
-" for derekwyatt/vim-fswitch
+" For derekwyatt/vim-fswitch
+" Usage: (1) switch head/source: Ctrl-f
 autocmd FileType c,cpp nnoremap <buffer> <C-f> :FSHere<CR>
 autocmd FileType c,cpp nnoremap <buffer> <M-l> :FSSplitRight<CR>
 autocmd FileType c,cpp nnoremap <buffer> <M-h> :FSSplitLeft<CR>
@@ -299,7 +323,7 @@ au! BufEnter *.cc let b:fswitchdst = 'hh,h'
 au! BufEnter *.h let b:fswitchdst = 'c,cpp,m,cc'
 
 
-" for airline
+" For airline
 let g:airline_theme="deus"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
@@ -326,7 +350,7 @@ let g:airline_section_c = '%t'
 let g:airline_section_error = ''
 let g:airline_section_warning = ''
 
-" for airline-clock
+" For airline-clock
 let g:airline#extensions#clock#format = '%H:%M'
 let g:airline#extensions#clock#auto = 0
 function! AirlineInit()
@@ -335,7 +359,7 @@ endfunction
 autocmd User AirlineAfterInit call AirlineInit()
 
 
-" for 'ludovicchabant/vim-gutentags'
+" For 'ludovicchabant/vim-gutentags'
 " project root flag, stop to find in the parent dir
 let g:gutentags_enabled = 1
 let g:gutentags_trace = 0
@@ -355,6 +379,13 @@ if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
 
+
+" For gutentags
+" The gutentags is used to auto generate tag, it is still usefull for most,
+" as it is quite fast, although the match result maybe wrong at sometimes.
+" Usage:
+" (1) go to definition of current word: Ctrl-];
+" (2) go back: Ctrl-t
 let g:gutentags_add_default_project_roots = 0
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
 let g:gutentags_generate_on_new = 1
@@ -362,7 +393,7 @@ let g:gutentags_generate_on_missing = 1
 let g:gutentags_generate_on_write = 1
 let g:gutentags_generate_on_empty_buffer = 0
 
-" maybe also exclude 'build'
+" Maybe also exclude 'build'
 let g:gutentags_ctags_exclude = [
 \  '*.git', '*.svn', '*.hg',
 \  'cache', 'dist', 'bin', 'node_modules', 'bower_components',
@@ -390,14 +421,13 @@ let g:gutentags_ctags_exclude = [
 \]
 
 
-" for ale
+" For ale
 let g:ale_set_highlights = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
-" let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✔ %d']
 let g:ale_linters = {
     \   'c++': ['clang'],
     \   'c': ['clang'],
@@ -405,7 +435,7 @@ let g:ale_linters = {
     \}
 
 
-" for cpp highlight
+" For cpp highlight
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
@@ -413,33 +443,38 @@ let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 
 
-" combine NERDtree and tagbar
+" For NERDTree
+" Usage:
+" (1) find current file in the nerdtree: <leader>n;
+" (2) toggle nerdtree: Ctrl-n
 let NERDTreeMinimalUI=1 " remove the first line help info
 let NERDTreeWinSize=40  " set width
 let NERDTreeHighlightCursorline=1 " does not highlight the cursor of current file
 let NERDTreeChDirMode = 2 " setting for current directory
+
 " Auto quit NERDTree when vim is quited
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
-" Auto open NERDTree when vim is opened
-" autocmd vimenter * NERDTree
-" let g:tagbar_vertical = 25
-let g:tagbar_compact = 1 " remove the first line help info
-let g:tagbar_width = 30
-let g:tagbar_autoshowtag = 1 " auto highlight tags when edit file
-let g:tagbar_iconchars = ['▸', '▾']
-" Auto open NERDTree when vim is opened
-" autocmd VimEnter * nested :TagbarOpen
-" wincmd l
-autocmd VimEnter * wincmd l " if not exist, when open vim, the cursor will in NERDTree
 
-nnoremap tb :TagbarToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFind<CR>
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
 
 
-" for luochen1990/rainbow
+" For tagbar
+" Usage:
+" (1) toggle tagbar: tb;
+" (2) preview current tag: p(in tagbar window);
+" (3) toggle maximize tagbar window: x(in tagbar window)
+let g:tagbar_compact = 1 " remove the first line help info
+let g:tagbar_width = 30
+let g:tagbar_autoshowtag = 1 " auto highlight tags when edit file
+let g:tagbar_iconchars = ['▸', '▾']
+
+nnoremap tb :TagbarToggle<CR>
+
+
+" For luochen1990/rainbow
 let g:rainbow_active = 1
 let g:rainbow_conf = {
 \	'separately': {
@@ -448,7 +483,9 @@ let g:rainbow_conf = {
 \}
 
 
-" for preservim/nerdcommenter
+" For preservim/nerdcommenter
+" Usage:
+" (1) toggle comment current line: <leader>c<space>
 " Create default mappings
 let g:NERDCreateDefaultMappings = 1
 " Add spaces after comment delimiters by default
@@ -469,7 +506,10 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 
-" for coc.nvim
+" For coc.nvim
+" The coc.nvim is a powerful LSP, https://github.com/neoclide/coc.nvim
+" Usage: (1) go to definition: gd; (2) go back: Ctrl-o
+
 " TextEdit might fail if hidden is not set.
 set hidden
 
@@ -534,17 +574,17 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 "               /_/                                   /___/
 "
 
-" to config vimdiff for git, run the following commands:
-" 1. git config --local  diff.tool vimdiff
-" 2. git config --local  difftool.prompt false
-" 3. git config --local  alias.d difftool
-" config the following to enable git trust vim exitcode, quit with :cquit
-" 4. git config --local  difftool.trustExitCode true
-" 5. git config --local  mergetool.trustExitCode true
-" usage:
-" 1. git d for the vimdiff
-" 2. :qa for exit current file;
-" 3. :cq for interrupt the vimdiff
+" Please run the following commands to config vimdiff for git d:
+" (1) git config --local  diff.tool vimdiff
+" (2) git config --local  difftool.prompt false
+" (3) git config --local  alias.d difftool
+" Config the following to enable git trust vim exitcode, quit with :cquit
+" (4) git config --local  difftool.trustExitCode true
+" (5) git config --local  mergetool.trustExitCode true
+" Usage:
+" (1) git d for the vimdiff
+" (2) :qa for exit current file;
+" (3) :cq for interrupt the vimdiff
 if &diff
   highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
   highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
@@ -557,11 +597,11 @@ else
 endif
 
 
-" when FileType python, create a mapping to execute the current buffer with python
+" When the FileType is python, create a mapping to execute the current buffer
 autocmd FileType python nnoremap <buffer> P :exec '!python' shellescape(@%, 1)<CR>
 
 
-" record the last postition, pulled from :help last-position-jump in vim
+" Record the last postition, pulled from :help last-position-jump in vim
 autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
@@ -570,15 +610,16 @@ autocmd BufReadPost *
 
 autocmd InsertEnter * setlocal spell
 autocmd InsertLeave * setlocal nospell
-" autocmd BufRead,BufNewFile *.h setlocal spell
 
 
-" define a hithlight group for extra white space
+" Define a hithlight group for extra white space
 highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 match ExtraWhitespace /\s\+$/
+" Delete unused space keys at the end of a line.
+nnoremap zz :%s/\s\+$// <CR>
 
 
-" sudo apt-get install wmctrl, maximize gvim
+" Maximize gvim, require: sudo apt-get install wmctrl
 autocmd GUIEnter * call system('wmctrl -i -b add,maximized_vert,maximized_horz -r '.v:windowid)
 
 
@@ -601,7 +642,5 @@ nnoremap <leader>q :q!<CR>
 nnoremap <C-w>s :sp<CR>
 nnoremap <C-w>v :vs<CR>
 
-nnoremap zz :%s/\s\+$// <CR> " delete unused space keys at the end of a line.
-
-" TODO: remove this when ctrlsf support customized highlight group
+" TODO: Remove this when ctrlsf support customized highlight group
 hi ctrlsfSelectedLine guifg=#008787 guibg=NONE guisp=NONE gui=bold ctermfg=30 ctermbg=NONE cterm=bold
