@@ -575,12 +575,17 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 "
 
 " Please run the following commands to config vimdiff for git d:
-" (1) git config --local  diff.tool vimdiff
-" (2) git config --local  difftool.prompt false
-" (3) git config --local  alias.d difftool
+" (1) git config --global  diff.tool vimdiff
+" (2) git config --global  difftool.prompt false
+" (3) git config --global  difftool.vimdiff.path nvim  # For nvim only
+" (4) git config --global  alias.d difftool
+" (1) git config --global  merge.tool vimdiff
+" (2) git config --global  mergetool.prompt false
+" (3) git config --global  mergetool.vimdiff.path nvim  # For nvim only
+" (4) git config --global  alias.m mergetool
 " Config the following to enable git trust vim exitcode, quit with :cquit
-" (4) git config --local  difftool.trustExitCode true
-" (5) git config --local  mergetool.trustExitCode true
+" (1) git config --global  difftool.trustExitCode true
+" (2) git config --global  mergetool.trustExitCode true
 " Usage:
 " (1) git d for the vimdiff
 " (2) :qa for exit current file;
