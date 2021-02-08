@@ -254,6 +254,7 @@ tnoremap gt <c-\><c-n>:FloatermNext<cr>
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 nmap hp <Plug>(GitGutterPreviewHunk)
+let g:gitgutter_preview_win_floating = 0
 
 
 " For WanGong/vim-mark
