@@ -253,6 +253,7 @@ tnoremap gt <c-\><c-n>:FloatermNext<cr>
 " For 'airblade/vim-gitgutter'
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
+nmap hp <Plug>(GitGutterPreviewHunk)
 
 
 " For WanGong/vim-mark
