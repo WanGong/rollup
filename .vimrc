@@ -363,33 +363,32 @@ endfunction
 autocmd User AirlineAfterInit call AirlineInit()
 
 
-" For 'ludovicchabant/vim-gutentags'
-" project root flag, stop to find in the parent dir
-let g:gutentags_enabled = 1
-let g:gutentags_trace = 0
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', 'package.json']
-" tag file name
-let g:gutentags_ctags_tagfile = 'tags'
-" push the tags into ~/.cache/tags
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-" tags parameter
-let g:gutentags_ctags_extra_args = ['-R', '--fields=+niazS', '--extras=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-" let g:gutentags_ctags_extra_args += ['--language-force=C++']
-" create the dir if needed
-if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
-endif
-
-
-" For gutentags
+" For vim-gutentags
 " The gutentags is used to auto generate tag, it is still usefull for most,
 " as it is quite fast, although the match result maybe wrong at sometimes.
 " Usage:
 " (1) go to definition of current word: Ctrl-];
 " (2) go back: Ctrl-t
+
+" Project root flag, stop to find in the parent dir
+let g:gutentags_enabled = 1
+let g:gutentags_trace = 0
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', 'package.json']
+" Tag file name
+let g:gutentags_ctags_tagfile = 'tags'
+" Put the tags into ~/.cache/tags
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+" Tags parameter
+let g:gutentags_ctags_extra_args = ['-R', '--fields=+niazS', '--extras=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+" let g:gutentags_ctags_extra_args += ['--language-force=C++']
+" Create the dir if needed
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
 let g:gutentags_add_default_project_roots = 0
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
 let g:gutentags_generate_on_new = 1
@@ -423,6 +422,12 @@ let g:gutentags_ctags_exclude = [
 \  '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
 \  '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx', '*.xls',
 \]
+
+" Add "'detach': 1," to the build_default_job_options in autoload/gutentags.vim
+" ref to:
+" https://github.com/ludovicchabant/vim-gutentags/issues/178
+" https://github.com/ludovicchabant/vim-gutentags/issues/167
+" https://github.com/ludovicchabant/vim-gutentags/issues/168
 
 
 " For ale
