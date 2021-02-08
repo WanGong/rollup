@@ -186,6 +186,8 @@ set splitbelow
 let &t_TI = ""
 let &t_TE = ""
 
+set background=dark
+colorscheme gruvbox
 
 
 "    ____    _____  ____        _      __
@@ -590,15 +592,8 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " (1) git d for the vimdiff
 " (2) :qa for exit current file;
 " (3) :cq for interrupt the vimdiff
-if &diff
-  highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-  highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-  highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-  highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
-else
+if !&diff
   autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-  set background=dark
-  colorscheme gruvbox
 endif
 
 
