@@ -120,10 +120,10 @@ call plug#end()
 " /____/\_,_/___/_/\__/  \___/\___/_//_/_//_/\_, /
 "                                           /___/
 
-" Use ag replace grep, please install the ag refer to:
-" https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
+" Use rg to replace grep, please install the rg before to use this.
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
 filetype plugin indent on
@@ -310,7 +310,7 @@ let g:ctrlsf_auto_close = {
     \}
 let g:ctrlsf_auto_focus = { "at": "start" }
 let g:ctrlsf_default_root = 'project'
-let g:ctrlsf_backend = 'ag'
+let g:ctrlsf_backend = 'rg'
 let g:ctrlsf_mapping = { "popen": "<C-P>" }
 
 nnoremap cc :CtrlSFToggle<CR>
