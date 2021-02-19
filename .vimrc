@@ -259,7 +259,6 @@ tnoremap gt <c-\><c-n>:FloatermNext<cr>
 " For 'airblade/vim-gitgutter'
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
-nmap hp <Plug>(GitGutterPreviewHunk)
 let g:gitgutter_preview_win_floating = 0
 
 
@@ -292,7 +291,8 @@ noremap <leader>ff :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
 noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>fg :<C-U><C-R>=printf("Leaderf tag %s", "")<CR><CR>
-noremap <leader>fc :<C-U><C-R>=printf("Leaderf colorscheme %s", "")<CR><CR>
+noremap <leader>fs :<C-U><C-R>=printf("Leaderf colorscheme %s", "")<CR><CR>
+noremap <leader>fc :<C-U><C-R>=printf("Leaderf command %s", "")<CR><CR>
 noremap <leader>u  :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 
 
