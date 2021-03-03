@@ -605,7 +605,9 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " (1) git d for the vimdiff
 " (2) :qa for exit current file;
 " (3) :cq for interrupt the vimdiff
-if !&diff
+if &diff
+  hi Visual guifg=White guibg=LightBlue ctermbg=red guibg=red gui=none
+else
   autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 endif
 
