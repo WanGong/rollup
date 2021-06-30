@@ -58,6 +58,7 @@ Plug 'vim-python/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'luochen1990/rainbow'
 Plug 'ap/vim-css-color'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 " Move
 Plug 'christoomey/vim-tmux-navigator'
@@ -257,8 +258,8 @@ tnoremap gt <c-\><c-n>:FloatermNext<cr>
 
 
 " For 'airblade/vim-gitgutter'
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
+nmap [h <Plug>(GitGutterNextHunk)
+nmap ]h <Plug>(GitGutterPrevHunk)
 let g:gitgutter_preview_win_floating = 0
 
 
@@ -335,6 +336,7 @@ au! BufEnter *.h let b:fswitchdst = 'c,cpp,m,cc'
 
 " For airline
 let g:airline_theme="deus"
+let g:airline#extensions#scrollbar#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 let g:airline#extensions#tabline#show_tab_nr = 1
@@ -347,7 +349,7 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#show_tab_type = 1
-let g:airline#extensions#ale#enabled = 0
+let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#ale#error_symbol = '✗: '
 let g:airline#extensions#ale#warning_symbol = '⚠ : '
 let g:airline#extensions#ale#show_line_numbers = 0
@@ -359,6 +361,7 @@ let g:airline_stl_path_style = 'short'
 let g:airline_section_c = '%t'
 let g:airline_section_error = ''
 let g:airline_section_warning = ''
+
 
 " For airline-clock
 let g:airline#extensions#clock#format = '%H:%M'
@@ -437,17 +440,35 @@ let g:gutentags_ctags_exclude = [
 
 
 " For ale
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
 let g:ale_linters = {
-    \   'c++': ['clang'],
-    \   'c': ['clang'],
-    \   'python': ['pylint'],
+    \   'cpp': ['clangd-tidy', 'clang-format', 'cpplint', 'clangd'],
+    \   'c': ['clangd-tidy', 'clang-format', 'cpplint', 'clangd'],
+    \   'python': ['flake8', 'pylint'],
     \}
+let g:ale_fixers = {
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'cpp': ['clangd-tidy', 'clang-format'],
+    \   'c': ['clangd-tidy', 'clang-format'],
+    \   'python': ['add_blank_lines_for_python_control_statements', 'autoimport', 'autopep8', 'black', 'isort', 'reorder-python-imports', 'yapf'],
+    \}
+
+let g:ale_disable_lsp = 1 " Work with coc, https://github.com/dense-analysis/ale#5iii-how-can-i-use-ale-and-cocnvim-together
+" let g:ale_set_balloons = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 0
+let g:ale_floating_preview = 1
+let g:ale_cursor_detail = 1
+let g:ale_floating_window_border = ['', '', '', '', '', '']
+
+nmap <silent> [e <Plug>(ale_previous_wrap)
+nmap <silent> ]e <Plug>(ale_next_wrap)
+
 
 
 " For cpp highlight
@@ -474,6 +495,8 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFind<CR>
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
+
+let NERDTreeHighlightCursorline = 0
 
 
 " For tagbar
@@ -578,8 +601,6 @@ autocmd ColorScheme * highlight CocHighlightText ctermfg=LightMagenta guifg=Ligh
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-
 
 
 "   _____                __          _____          ____
