@@ -495,6 +495,7 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>n :NERDTreeFind<CR>
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
+let g:NERDTreeMapPreview = 'p'
 
 let NERDTreeHighlightCursorline = 0
 
