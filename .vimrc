@@ -187,6 +187,8 @@ au BufWritePre * let &bex = '@' . strftime("%F.%H:%M")
 
 " Vim terminal
 set splitbelow
+autocmd TermOpen,TermEnter * startinsert | set nonumber
+
 
 " Fix crazy wrong code, ref to:
 " https://www.reddit.com/r/vim/comments/gv410k/strange_character_since_last_update_42m/fsmfxxv/
