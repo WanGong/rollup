@@ -187,8 +187,8 @@ au BufWritePre * let &bex = '@' . strftime("%F.%H:%M")
 
 " Vim terminal
 set splitbelow
-autocmd TermOpen,TermEnter * startinsert | set nonumber
-nnoremap T :botright split <cr> <bar> :resize 15 <bar> term <cr>
+" autocmd TermOpen,TermEnter * startinsert | set nonumber
+" nnoremap T :botright split <cr> <bar> :resize 15 <bar> term <cr>
 
 
 " Fix crazy wrong code, ref to:
@@ -254,6 +254,10 @@ let g:floaterm_keymap_prev   = '<leader>tn'
 let g:floaterm_keymap_next   = '<leader>tp'
 let g:floaterm_keymap_toggle = 'tt'
 let g:floaterm_title         = '$1/$2'
+
+let g:floaterm_position      = 'bottom'
+let g:floaterm_wintype       = 'split'
+let g:floaterm_height        = 13
 
 tnoremap <leader>e <c-\><c-n>:FloatermNew<cr>
 tnoremap <leader>q <c-\><c-n>:q<cr>
