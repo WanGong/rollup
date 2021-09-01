@@ -31,8 +31,8 @@ call plug#begin(has('nvim') ? '~/.config/nvim/plugged' : '~/.vim/plugged')
 Plug 'honza/vim-snippets'
 
 " Color mark
-Plug 'vim-scripts/ingo-library'
-Plug 'WanGong/vim-mark'  " require vim-scripts/ingo-library
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-mark'  " require vim-scripts/ingo-library
 
 " Nerdtree
 Plug 'scrooloose/nerdtree'
@@ -199,6 +199,9 @@ let &t_TE = ""
 set background=dark
 colorscheme gruvbox
 
+" sudo apt install xclip
+set clipboard+=unnamedplus
+
 
 "    ____    _____  ____        _      __
 "   / __/__ / / _/ / __/_______(_)__  / /____
@@ -256,11 +259,12 @@ let g:floaterm_keymap_toggle = 'tt'
 let g:floaterm_title         = '$1/$2'
 
 let g:floaterm_position      = 'bottom'
-let g:floaterm_wintype       = 'split'
-let g:floaterm_height        = 13
+let g:floaterm_wintype       = 'float'
+let g:floaterm_width         = 1.0
+let g:floaterm_height        = 0.33
 
 tnoremap <leader>e <c-\><c-n>:FloatermNew<cr>
-tnoremap <leader>q <c-\><c-n>:q<cr>
+tnoremap <leader>q <c-\><c-n>:FloatermKill<cr>
 tnoremap gt <c-\><c-n>:FloatermNext<cr>
 
 
@@ -276,6 +280,8 @@ let g:gitgutter_preview_win_floating = 0
 " (2) undo mark current world: <leader>m;
 " (3) cancel all: mm
 nnoremap mm :MarkClear<CR>
+let g:mwDirectGroupJumpMappingNum = 20
+let g:mwDefaultHighlightingPalette = 'maximum'
 
 
 " For leaderF
@@ -454,14 +460,14 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
 let g:ale_linters = {
-    \   'cpp': ['clangd-tidy', 'clang-format', 'cpplint', 'clangd'],
-    \   'c': ['clangd-tidy', 'clang-format', 'cpplint', 'clangd'],
+    \   'cpp': ['clangtidy', 'clang-format', 'cpplint', 'clangd'],
+    \   'c': ['clangtidy', 'clang-format', 'cpplint', 'clangd'],
     \   'python': ['flake8', 'pylint'],
     \}
 let g:ale_fixers = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \   'cpp': ['clangd-tidy', 'clang-format'],
-    \   'c': ['clangd-tidy', 'clang-format'],
+    \   'cpp': ['clangtidy', 'clang-format'],
+    \   'c': ['clangtidy', 'clang-format'],
     \   'python': ['add_blank_lines_for_python_control_statements', 'autoimport', 'autopep8', 'black', 'isort', 'reorder-python-imports', 'yapf'],
     \}
 
@@ -499,7 +505,7 @@ let NERDTreeChDirMode = 2 " setting for current directory
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 
 nnoremap <C-n> :NERDTreeToggle<CR>
-nnoremap <leader>n :NERDTreeFind<CR>
+nnoremap gn :NERDTreeFind<CR>
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
 let g:NERDTreeMapPreview = 'p'
