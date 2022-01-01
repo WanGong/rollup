@@ -118,7 +118,8 @@ Plug 'psliwka/vim-smoothie'
 " (3) set terminal font
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'sindrets/diffview.nvim
+Plug 'nvim-lua/plenary.nvim' " required by diffview.nvim
+Plug 'sindrets/diffview.nvim'
 call plug#end()
 
 
