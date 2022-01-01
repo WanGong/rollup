@@ -117,6 +117,8 @@ Plug 'psliwka/vim-smoothie'
 " (2) install nerd font(https://github.com/ryanoasis/nerd-fonts);
 " (3) set terminal font
 Plug 'ryanoasis/vim-devicons'
+
+Plug 'sindrets/diffview.nvim
 call plug#end()
 
 
