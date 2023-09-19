@@ -1,0 +1,4 @@
+1. https://github.com/wagoodman/dive
+2. https://github.com/junegunn/fzf
+3. https://github.com/BurntSushi/ripgrep
+4. https://draculatheme.com/gnome-terminal
