@@ -2,3 +2,4 @@
 2. https://github.com/junegunn/fzf
 3. https://github.com/BurntSushi/ripgrep
 4. https://draculatheme.com/gnome-terminal
+5. https://github.com/dandavison/delta
