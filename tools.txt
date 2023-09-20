@@ -3,3 +3,5 @@
 3. https://github.com/BurntSushi/ripgrep
 4. https://draculatheme.com/gnome-terminal
 5. https://github.com/dandavison/delta
+6. tldr
+7. mlocate
